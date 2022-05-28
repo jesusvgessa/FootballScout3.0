@@ -40,18 +40,18 @@
     <section>
         <article class="container my-5 p-5 rounded">
             <h3>ENTRAR</h3>
-            <form action="../Entrenador/index.html" class="container needs-validation" novalidate>
+            <form action="../php/iniciarSesion.php" method="POST" class="container needs-validation" novalidate>
                 <div class="row justify-content-center my-3">
-                    <input type="email" class="form-control" id="validationCustom01" placeholder="Correo electrónico" required>
+                    <input type="email" class="form-control" name="usuario" id="validationCustom01 usuario" placeholder="Usuario" required>
                     <div class="valid-feedback text-center">
                         !Perfecto!
                     </div>
                     <div class="invalid-feedback text-center">
-                        Introduzca su correo.
+                        Introduzca su usuario.
                     </div>
                 </div>
                 <div class="row justify-content-center my-3">
-                    <input type="password" class="form-control" id="validationCustom02" placeholder="Contraseña" required>
+                    <input type="password" class="form-control" name="contrasena" id="validationCustom02 contrasena" placeholder="Contraseña" required>
                     <div class="valid-feedback text-center">
                         !Perfecto!
                     </div>
