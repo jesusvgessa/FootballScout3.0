@@ -33,7 +33,7 @@
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <img src="../img/lopetegui.jpg" alt="entrenador" width="60" class="rounded-circle">
+                        <img src="../img/jesus.jpg" alt="entrenador" width="70" class="rounded-circle">
                     </button>
                     <!-- Modal -->
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -45,7 +45,7 @@
                                 <div class="modal-body text-center">
                                     <a href="#">Ver perfil</a><br>
                                     <a href="#">Configuración</a><br>
-                                    <a href="../index.html">Cerrar sesión</a>
+                                    <a href="../php/cerrarSesion.php">Cerrar sesión</a>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -67,90 +67,97 @@
                       </svg> Inicio</a>
                 </li>
                 <li class="col-2">
-                    <a href="plantilla.html">
+                    <a href="entrenadores.html">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
                     <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
-                  </svg> Plantilla</a>
+                  </svg> Entrenadores</a>
                 </li>
                 <li class="col-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475ZM.879 8C-2.426 1.68 4.41-2 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
-                      </svg><a href="entrenamiento.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
+                      </svg><a href="jugadores.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475ZM.879 8C-2.426 1.68 4.41-2 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
-                  </svg>  Entrenamiento</a></li>
+                  </svg>  Jugadores</a></li>
                 <li class="col-2">
-                    <a href="partido.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-postcard-fill" viewBox="0 0 16 16">
+                    <a href="usuarios.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-postcard-fill" viewBox="0 0 16 16">
                     <path d="M11 8h2V6h-2v2Z"/>
                     <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm8.5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7ZM2 5.5a.5.5 0 0 0 .5.5H6a.5.5 0 0 0 0-1H2.5a.5.5 0 0 0-.5.5ZM2.5 7a.5.5 0 0 0 0 1H6a.5.5 0 0 0 0-1H2.5ZM2 9.5a.5.5 0 0 0 .5.5H6a.5.5 0 0 0 0-1H2.5a.5.5 0 0 0-.5.5Zm8-4v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5Z"/>
-                  </svg>  Partido</a></li>
-                <li class="col-2">
-                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                  </svg>  Calendario</a></li>
+                  </svg>  Gestión de usuarios</a></li>
                 <li class="col-2">
                     <a href="mensajes.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
                     <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
-                  </svg>  Mensaje</a></li>
+                  </svg>  Mensajes</a></li>
             </ul>
         </div>
     </nav>
 
     <section>
-        <h2 class="text-center my-5">PARTIDO</h2>
-        <article class="container bg-dark mb-5">
-            <nav class="mb-3 container justify-content-center border-bottom">
-                <ul class="row">
-                    <li class="col-3">
-                        <select name="tema" id="orden">
-                            <option value="0">Ordenar</option>
-                            <option value="selectNombre">Fecha</option>
-                            <option value="selectDorsal">Sesión</option>
+        <article class="container">
+        <form class="form-register" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data">
+            <div class="tablon">
+                <h2>Gestión de usuarios</h2>
+                <div class="row">
+                    <div class="col-3">
+                        <select class="filtro" name="tema" id="tema">
+                            <option value="usuarios">Usuarios</option>
+                            <option value="nuevos">Nuevos registros</option>
                         </select>
-                    </li>
-                    <li class="col-2">
-                        <a href="#" id="boton">
-                            <button class="anadirJugador">Añadir Partido</button>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="container p-5">
-                <table class="table table-striped table-hover bg-light">
-                    <thead>
-                        <tr>
-                            <th scope="col">Jornada</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Rival</th>
-                            <th scope="col">Resultado</th>
-                            <th scope="col">Informe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>17/02/2022</td>
-                            <td>Nervión</td>
-                            <td>2-1</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
-                                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
-                                </svg>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>15/02/2022</td>
-                            <td>Tomares</td>
-                            <td>3-3</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
-                                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
-                                </svg>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="anadirAnuncio" value="Buscar"></input>
+                    </div>
+            </form>
+                    <div class="col-7 justify-content-end">
+                        <a href="insertarUsuario.php" class="anadirAnuncio"><i class="far fa-plus-square"></i> Nuevo usuario</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <!-- Obtener todas -->
+                        <table class="fixed_headers">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Tipo</th>
+                                    <th>Correo</th>
+                                    <?php
+                                        $busqueda=array_key_exists("tema",$_POST) ? $_POST["tema"] : "";
+                                        if($busqueda=='nuevos'){
+                                            echo "<th>Añadir</th>";
+                                        }else{
+                                            echo "<th>Editar</th>";
+                                        }
+                                    ?>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php include_once "../php/databaseManagement.inc.php";
+
+                                    $busqueda=array_key_exists("tema",$_POST) ? $_POST["tema"] : "";
+                                
+                                    $usuarios = obtenerTodos($busqueda);
+                        
+                                    for ($i=0;$i<sizeof($usuarios);$i++){
+                                        echo "<tr>";
+                                            echo "<td>".$usuarios[$i]['nombre']."</td>";
+                                            echo "<td>".$usuarios[$i]['apellidos']."</td>";
+                                            echo "<td>".$usuarios[$i]['tipo']."</td>";
+                                            if($busqueda=='nuevos'){
+                                                echo "<td><a href='confirmarUsuario.php?varId=".$usuarios[$i]["id"]."'><i class='fas fa-solid fa-check'></i></a></td>";
+                                            }else{
+                                                echo "<td><a href='editarUsuario.php?varId=".$usuarios[$i]["id"]."'><i class='fas fa-edit'></i></a></td>";
+                                            }
+                                        echo "<td><a href='eliminarUsuario.php?varId=".$usuarios[$i]["id"]."'><i class='fas fa-trash-alt'></i></a></td>";
+                                        echo "</tr>";
+                                    }//Fin Para
+                                ?>
+                            </tbody>
+                        </table>
+                        <!-- Obtener todas Fin -->
+                    </div>
+                </div>
             </div>
         </article>
     </section>
