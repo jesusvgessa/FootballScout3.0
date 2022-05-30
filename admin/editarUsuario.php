@@ -91,108 +91,112 @@
         </div>
     </nav>
 
-    <section>
-    <h2 class="text-center my-5">GESTIÓN DE USUARIOS</h2>
-        <article class="container bg-dark mb-5">
-            <nav class="mb-3 container justify-content-center border-bottom">
-                <ul class="row">
 
-                    <form class="form-register" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data">
-                        <div class="tablon">
-                            <div class="row">
-                                <li class="col-3">
-                                    <select class="filtro" name="tema" id="tema">
-                                        <option value="usuarios">Usuarios</option>
-                                        <option value="nuevos">Nuevos registros</option>
-                                    </select>
-                                </li>
-                            <div class="col-2">
-                                <input type="submit" class="anadirAnuncio" value="Buscar"></input>
-                            </div>
-                    </form>
+    <?php include "../php/databaseManagement.inc.php";
 
-                    <li class="col-3">
-                        <select name="tema" id="orden">
-                            <option value="0">Ordenar</option>
-                            <option value="selectNombre">Fecha</option>
-                            <option value="selectDorsal">Sesión</option>
-                        </select>
-                    </li>
-                    <li class="col-2">
-                        <div class="col-7 justify-content-end">
-                            <a href="insertarUsuario.php" class="anadirAnuncio"><i class="far fa-plus-square"></i> Nuevo usuario</a>
-                        </div>
-                    </li>
-                    <li class="col-1">
-                        <a href="mensajes.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                              </svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="container p-5">
-                <table class="table table-striped table-hover bg-light">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Tipo</th>
-                            <th>Correo</th>
-                            <?php
-                                $busqueda=array_key_exists("tema",$_POST) ? $_POST["tema"] : "";
-                                if($busqueda=='nuevos'){
-                                    echo "<th>Añadir</th>";
-                                }else{
-                                    echo "<th>Editar</th>";
-                                }
-                            ?>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Obtener todas -->
-                        <?php include_once "../php/databaseManagement.inc.php";
+        if (count($_GET) > 0) {
+            $id = $_GET["varId"];
+            $publicacion = obtenerUsuario($id);
+        } else {
+            $id = $_POST["id"];
+            $publicacion = obtenerUsuario($id);
+        }
+        
+        //Comprobacion
+        if (count($_POST) > 0) {
+            
+            //Tipo de admin
+            $tipo="";
+            $admin=array_key_exists("admin",$_POST) ? $_POST["admin"] : "";
+            $Entrenador=array_key_exists("Entrenador",$_POST) ? $_POST["Entrenador"] : "";
+            $jugador=array_key_exists("jugador",$_POST) ? $_POST["jugador"] : "";
+            if($admin!="" || $jugador=="" && $Entrenador=="" && $admin==""){
+                $tipo .= "admin";
+            }
+            if($Entrenador!="" && $admin!=""){
+                $tipo .= ",".$_POST["Entrenador"];
+            }else if($Entrenador!="" && $admin==""){
+                $tipo .= $_POST["Entrenador"];
+            }
+            if($jugador!="" && ($Entrenador!="" || $admin!="")){
+                $tipo .= ",".$_POST["jugador"];
+            }else if($jugador!="" && $Entrenador=="" && $admin==""){
+                $tipo .= $_POST["jugador"];
+            }
 
-                        $busqueda=array_key_exists("tema",$_POST) ? $_POST["tema"] : "";
+            $error = '';
 
-                        $usuarios = obtenerTodos($busqueda);
+            //comprobación
+            if($_POST["nombre"]=="" || $_POST["apellidos"]=="" || $_POST["dni"]=="" || $_POST["correo"]=="" || $_POST["telefono"]=="" || $_POST["num_miembros"]==""){
+                
+                echo "Debe rellenar todos los campos";
 
-                        for ($i=0;$i<sizeof($usuarios);$i++){
-                            echo "<tr>";
-                                echo "<td>".$usuarios[$i]['nombre']."</td>";
-                                echo "<td>".$usuarios[$i]['apellidos']."</td>";
-                                echo "<td>".$usuarios[$i]['tipo']."</td>";
-                                echo "<td>".$usuarios[$i]['correo']."</td>";
-                                if($busqueda=='nuevos'){
-                                    echo "<td><a href='confirmarUsuario.php?varId=".$usuarios[$i]["id"]."'>
-                                                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-check-square-fill' viewBox='0 0 16 16'>
-                                                <path d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z'/>
-                                                </svg>
-                                            </a></td>";
-                                }else{
-                                    echo "<td><a href='editarUsuario.php?varId=".$usuarios[$i]["id"]."'>
-                                                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
-                                                <path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
-                                                <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
-                                                </svg>
-                                            </a></td>";
-                                }
-                                echo "<td><a href='eliminarUsuario.php?varId=".$usuarios[$i]["id"]."'>
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-file-x-fill' viewBox='0 0 16 16'>
-                                            <path d='M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6.854 6.146 8 7.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 8l1.147 1.146a.5.5 0 0 1-.708.708L8 8.707 6.854 9.854a.5.5 0 0 1-.708-.708L7.293 8 6.146 6.854a.5.5 0 1 1 .708-.708z'/>
-                                            </svg>
-                                        </a></td>";
-                            echo "</tr>";
-                        }//Fin Para
-                        ?>
-                    </tbody>
+            }else{
+
+                $cumplido = editarUsuario($id, $_POST["nombre"], $_POST["apellidos"], $_POST["dni"], $tipo, $_POST["correo"], $_POST["telefono"], $_POST["num_miembros"]);
+
+                if ($cumplido==true) {
+
+                    header("Location: index.php");
+
+                } else {
+
+                    $error = "Datos incorrectos o no se ha actualizado nada";
+                    
+                }
+            }
+        }
+    ?>
+    <article>
+        <div class="container">
+            <h4 class="mb-3 text-center">Información</h4>
+            <form class="needs-validation form-register" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data" id="formRegistro" novalidate>
+                <input type="hidden" name="id" value="<?php echo $publicacion["id"]; ?>">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="nombre">Nombre</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="nombre" placeholder="NOMBRE" value='<?php echo $publicacion["nombre"]; ?>' required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="apellidos">Apellidos</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="apellidos" placeholder="APELLIDOS" value='<?php echo $publicacion["apellidos"]; ?>' required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="correo">Correo</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="correo" placeholder="CORREO" value='<?php echo $publicacion["correo"]; ?>' required><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="tipo">Tipo (Debe tener mínimo un roll, sino se le asignará admin)</label>
+                        </td>
+                        <td>
+                            admin <input name="admin" id="admin" value="admin" type="checkbox">
+                            Entrenador <input name="Entrenador" id="Entrenador" value="Entrenador" type="checkbox">
+                            jugador <input name="jugador" id="jugador" value="jugador" type="checkbox"><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Editar">
+                        </td>
+                    </tr>
                 </table>
-            </div>
-        </article>    
-    </section>
+            </form>
+        </div>
+    </div>
+    </article>
 
     <footer class="container-fluid bg-dark text-light p-5">
         <div class="container">
