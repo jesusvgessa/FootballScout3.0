@@ -1,6 +1,6 @@
 <?php
 $servidor = "localhost";
-$baseDatos = "cleanvibes";
+$baseDatos = "footballscout";
 $usuario = "root";
 $pass = "";
 
