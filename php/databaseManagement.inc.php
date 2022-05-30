@@ -1,7 +1,7 @@
 <?php
 $servidor = "localhost";
 $baseDatos = "footballscout";
-$usuario = "root";
+$user = "root";
 $pass = "";
 
 //Funciones
