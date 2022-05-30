@@ -91,99 +91,149 @@
         </div>
     </nav>
 
-    <section>
-    <h2 class="text-center my-5">GESTIÓN DE USUARIOS</h2>
-        <article class="container bg-dark mb-5">
-            <form class="form-register" action="usuarios.php" method="POST" enctype="multipart/form-data">
-            <nav class="mb-3 container justify-content-center border-bottom">
-                <ul class="row">
-                    <div class="tablon">
-                        <div class="row">
-                            <li class="col-3">
-                                <select class="filtro" name="tema" id="tema">
-                                    <option value="usuarios">Usuarios</option>
-                                    <option value="nuevos">Nuevos registros</option>
-                                </select>
-                            </li>
-                        <div class="col-2">
-                            <input type="submit" class="anadirAnuncio" value="Buscar"></input>
-                        </div>
-                    </form>
-                    <li class="col-2">
-                        <div class="col-7 justify-content-end">
-                            <a href="insertarUsuario.php" class="anadirAnuncio"><i class="far fa-plus-square"></i> Nuevo usuario</a>
-                        </div>
-                    </li>
-                    <li class="col-1">
-                        <a href="usuarios.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                              </svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="container p-5">
-                <table class="table table-striped table-hover bg-light">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Tipo</th>
-                            <th>Correo</th>
-                            <?php
-                                $busqueda=array_key_exists("tema",$_POST) ? $_POST["tema"] : "";
-                                if($busqueda=='nuevos'){
-                                    echo "<th>Añadir</th>";
-                                }else{
-                                    echo "<th>Editar</th>";
-                                }
-                            ?>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Obtener todas -->
-                        <?php include_once "../php/databaseManagement.inc.php";
+<?php include_once "../php/databaseManagement.inc.php";
 
-                        $busqueda=array_key_exists("tema",$_POST) ? $_POST["tema"] : "";
+    if (count($_POST) > 0) {
+        //Edad
+        list($ano,$mes,$dia) = explode("-",$_POST["fecnac"]);
+        $ano_diferencia  = date("Y") - $ano;
+        $mes_diferencia = date("m") - $mes;
+        $dia_diferencia   = date("d") - $dia;
+        if ($dia_diferencia < 0 || $mes_diferencia < 0){
+            $ano_diferencia--;
+        }
+        //Tipo de socio
+        $tipo="";
+        $socio=array_key_exists("socio",$_POST) ? $_POST["socio"] : "";
+        $presidente=array_key_exists("presidente",$_POST) ? $_POST["presidente"] : "";
+        $administrador=array_key_exists("administrador",$_POST) ? $_POST["administrador"] : "";
+        if($socio!="" || $administrador=="" && $presidente=="" && $socio==""){
+            $tipo .= "socio";
+        }
+        if($presidente!="" && $socio!=""){
+            $tipo .= ",".$_POST["presidente"];
+        }else if($presidente!="" && $socio==""){
+            $tipo .= $_POST["presidente"];
+        }
+        if($administrador!="" && ($presidente!="" || $socio!="")){
+            $tipo .= ",".$_POST["administrador"];
+        }else if($administrador!="" && $presidente=="" && $socio==""){
+            $tipo .= $_POST["administrador"];
+        }
+        //comprobación
+        if($_POST["usuario"]=="" || $_POST["contrasena"]=="" || $_POST["nombre"]=="" || $_POST["apellidos"]=="" || $_POST["dni"]=="" || $_POST["correo"]=="" || $_POST["telefono"]=="" || $_POST["fecnac"]=="" || $_POST["num_miembros"]==""){
+            
+            echo "Debe rellenar todos los campos";
 
-                        $usuarios = obtenerTodos($busqueda);
+        }else if($ano_diferencia<=14){
 
-                        for ($i=0;$i<sizeof($usuarios);$i++){
-                            echo "<tr>";
-                                echo "<td>".$usuarios[$i]['nombre']."</td>";
-                                echo "<td>".$usuarios[$i]['apellidos']."</td>";
-                                echo "<td>".$usuarios[$i]['tipo']."</td>";
-                                echo "<td>".$usuarios[$i]['correo']."</td>";
-                                if($busqueda=='nuevos'){
-                                    echo "<td><a href='confirmarUsuario.php?varId=".$usuarios[$i]["id"]."'>
-                                                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-check-square-fill' viewBox='0 0 16 16'>
-                                                <path d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z'/>
-                                                </svg>
-                                            </a></td>";
-                                }else{
-                                    echo "<td><a href='editarUsuario.php?varId=".$usuarios[$i]["id"]."'>
-                                                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
-                                                <path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
-                                                <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
-                                                </svg>
-                                            </a></td>";
-                                }
-                                echo "<td><a href='eliminarUsuario.php?varId=".$usuarios[$i]["id"]."'>
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-file-x-fill' viewBox='0 0 16 16'>
-                                            <path d='M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6.854 6.146 8 7.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 8l1.147 1.146a.5.5 0 0 1-.708.708L8 8.707 6.854 9.854a.5.5 0 0 1-.708-.708L7.293 8 6.146 6.854a.5.5 0 1 1 .708-.708z'/>
-                                            </svg>
-                                        </a></td>";
-                            echo "</tr>";
-                        }//Fin Para
-                        ?>
-                    </tbody>
+            echo "Debe tener mas de 14 años";
+
+        }else{
+
+            insertarUsuario($_POST["usuario"], $_POST["contrasena"], $_POST["nombre"], $_POST["apellidos"], $_POST["dni"], $tipo, $_POST["correo"], $_POST["telefono"], $_POST["fecnac"], $_POST["num_miembros"]);
+            header("Location: index.php");
+
+        }
+    }
+    ?>
+    <article>
+        <div class="container">
+            <h4 class="mb-3 text-center">Información</h4>
+            <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data" id="formRegistro">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="nombre">Usuario</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="usuario" placeholder="USUARIO" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="nombre">Contraseña</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="contrasena" placeholder="CONTRASEÑA" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="nombre">Nombre</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="nombre" placeholder="NOMBRE" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="apellidos">Apellidos</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="apellidos" placeholder="APELLIDOS" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="dni">DNI</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="dni" placeholder="DNI" required><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="correo">Correo</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="correo" placeholder="CORREO" required><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="correo">Fecha de nacimiento</label>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" name="fecnac" required><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="telefono">Telefono</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="telefono" placeholder="TELEFONO" required><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="num_miembros">Miembros de la familia</label>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="num_miembros" placeholder="NUMERO DE MIEMBROS" min="1" required><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <label for="tipo">Tipo (Debe tener mínimo un roll, sino se le asignará socio)</label>
+                        </td>
+                        <td>
+                            Socio <input name="socio" id="socio" value="socio" type="checkbox">
+                            Presidente <input name="presidente" id="presidente" value="presidente" type="checkbox">
+                            Administrador <input name="administrador" id="administrador" value="administrador" type="checkbox"><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Enviar">
+                        </td>
+                    </tr>
                 </table>
-            </div>
-        </article>    
-    </section>
+            </form>
+        </div>
+    </div>
+    </article>
 
     <footer class="container-fluid bg-dark text-light p-5">
         <div class="container">
