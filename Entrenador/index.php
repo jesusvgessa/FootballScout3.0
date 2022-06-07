@@ -26,23 +26,48 @@
                 <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
+                <!--
+                    // Continuar la sesión
+                    session_start();
+
+                    //Pregunto si la sesion esta iniciada
+                    if(isset($_SESSION['sesion_iniciada']) == true ){
+                    
+                        //Si lo está, pregunto por el tipo de usuario
+                        $tipo = session_id();
+                        if($tipo!="admin"){
+                            //Pagina indicando error
+                        
+                        }else{
+                            //Pagina admin
+                        }//Fin Si
+                    }else{
+                        //Pagina indicando error
+                    }//Fin si
+                -->
+                
 
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <img src="../img/lopetegui.jpg" alt="entrenador" width="60" class="rounded-circle">
+                        <?php
+                            // Continuar la sesión
+                            session_start();
+                            $usuario = $_SESSION['username'];
+                            echo "<img src='../img/".$usuario.".jpg' alt='entrenador' width='60' class='rounded-circle'>";
+                        ?>
                     </button>
                     <!-- Modal -->
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Usuarion</h5>
+                                    <h5 class="modal-title" id="staticBackdropLabel">Usuario</h5>
                                 </div>
                                 <div class="modal-body text-center">
                                     <a href="#">Ver perfil</a><br>
                                     <a href="#">Configuración</a><br>
-                                    <a href="../index.html">Cerrar sesión</a>
+                                    <a href="../php/cerrarSesion.php">Cerrar sesión</a>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

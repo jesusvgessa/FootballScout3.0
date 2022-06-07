@@ -28,7 +28,7 @@
                 $_SESSION['sesion_iniciada'] = true;
                 $_SESSION['username'] = $usuario;
                 $_SESSION['id'] = $persona['id'];
-                header("location: ../".$persona['tipo']."/index.html");   
+                header("location: ../".$persona['tipo']."/index.php");   
             }else{
                 //Pag indicando que no puedes entrar
                 echo "Tu usuario aun no ha sido confirmado, puede tardar un par de dias en estar activo<br><br>";
@@ -43,6 +43,6 @@
 
         $con = null; //Cerramos la conexión
     } catch (PDOException $e) {
-        header("location: error.php");
+        header("location: error.html");
     }
 ?>

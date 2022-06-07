@@ -40,7 +40,16 @@
     <section>
         <article class="container my-5 p-5 rounded">
             <h3>REGISTRARSE</h3>
-            <form action="../Entrenador/index.html" class="container needs-validation" id="registro" novalidate>
+            <form action="../php/registrar.php" class="container needs-validation" id="registro" novalidate>
+                <div class="row justify-content-center my-3">
+                    <input type="text" class="form-control" id="usuario" placeholder="Usuario" required>
+                    <div class="valid-feedback text-center">
+                        ¡Perfecto!
+                    </div>
+                    <div class="invalid-feedback text-center">
+                        Introduzca un nombre válido de usuario.
+                    </div>
+                </div>
                 <div class="row justify-content-center my-3">
                     <input type="text" class="form-control" id="nombre" placeholder="Nombre" required>
                     <div class="valid-feedback text-center">
@@ -51,7 +60,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-center my-3">
-                    <input type="text" class="form-control" id="apes" placeholder="Apellidos" required>
+                    <input type="text" class="form-control" id="apellidos" placeholder="Apellidos" required>
                     <div class="valid-feedback text-center">
                         ¡Perfecto!
                     </div>
@@ -60,7 +69,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-center my-3">
-                    <input type="email" class="form-control" id="validationCustom01" placeholder="Correo electrónico" required>
+                    <input type="email" class="form-control" id="correo" placeholder="Correo electrónico" required>
                     <div class="valid-feedback text-center">
                         ¡Perfecto!
                     </div>
@@ -120,7 +129,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-center my-3">
-                    <input type="password" class="form-control" id="pass" placeholder="Contraseña" required>
+                    <input type="password" class="form-control" id="contrasena" placeholder="Contraseña" required>
                     <div class="valid-feedback text-center">
                         ¡Perfecto!
                     </div>
@@ -129,7 +138,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-center my-3">
-                    <input type="password" class="form-control" id="pass2" placeholder="Repita la contraseña" required>
+                    <input type="password" class="form-control" id="contrasena2" placeholder="Repita la contraseña" required>
                     <div class="valid-feedback text-center">
                         ¡Perfecto!
                     </div>
@@ -141,7 +150,7 @@
                     <div class="form-check">
                         <input class="form-check-input position-absolute start-50" type="checkbox" value="" id="invalidCheck" required>
                         <label class="form-check-label position-absolute start-50" for="invalidCheck">
-                            Aceptar términos y condiciones
+                            Aceptar términos y condiciones.
                         </label>
                         <div class="invalid-feedback mt-4 text-center">
                             Tienes que aceptar los términos
