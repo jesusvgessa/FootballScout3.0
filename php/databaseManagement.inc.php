@@ -48,6 +48,22 @@ $pass = "";
         return $miArray;
     }
 
+    function obtenerTodosUsuarios(){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * from usuarios;");
+            $sql->execute();
+            $miArray2 = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray2[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+        return $miArray2;
+    }
+
     function insertarUsuario($usuario,$contrasena,$nombre,$apellidos,$tipo,$correo){
         
         try {
