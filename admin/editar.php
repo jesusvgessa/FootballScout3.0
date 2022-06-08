@@ -39,92 +39,30 @@
 
 <!--                            -->
 <section>
-<?php
+<?php include "../php/databaseManagement.inc.php";
 
-    $servidor = "localhost";
-    $baseDatos = "footballscout";
-    $user = "root";
-    $pass = "";
-
-    $usuario=$_POST["usuario"];
-    $nombre=$_POST["nombre"];
-    $apellidos=$_POST["apellidos"];
-    $correo=$_POST["correo"];
-    $contrasena= $_POST["contrasena"];
-    $contrasena2= $_POST["contrasena2"];
-
-    try {
-        $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-        $sql = $con->prepare("SELECT * FROM `usuarios`");
-        $sql->execute();
-        $nombreUsuarios = [];
-        while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
-            $nombreUsuarios[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
-        }
-        $con = null;
-    } catch (PDOException $e) {
-        echo $e;
-    }
-
-    $i=0;
-    while( $i < (sizeof($nombreUsuarios)-1) && $nombreUsuarios[$i]['usuario'] != $usuario ){
-        $i++;
-    }//Fin Mientras
-
-    //comprobación
-    if($usuario=="" || $nombre=="" || $apellidos=="" || $correo=="" || $contrasena=="" || $contrasena2==""){
-        //error
-        echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
-        echo "    <div>";
-        echo "        Debe rellenar todos los campos para realizar el registro correctamente<i>!</i>";
-        echo "    </div>";
-        echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='../login/registro.html'>Volver</a></div>";
-        echo "</div>";
-    }else if($nombreUsuarios[$i]['usuario']==$usuario){
-        //error
-        echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
-        echo "    <div>";
-        echo "        El nombre de usuario ".$usuario." ya existe. Por favor utiliza otro diferente.";
-        echo "    </div>";
-        echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='../login/registro.html'>Volver</a></div>";
-        echo "</div>";
-    }else if($contrasena!=$contrasena2){
-        //error
-        echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
-        echo "    <div>";
-        echo "        La contraseña debe ser la misma<i>!</i>";
-        echo "    </div>";
-        echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='../login/registro.html'>Volver</a></div>";
-        echo "</div>";
-    }else{
-        try{
-            //Insertar datos en la tabla usuarios
-            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :nombre , :apellidos , '0', :correo , 'Entrenador', :contrasena)");
-            $sql->bindParam(":usuario", $usuario);
-            $sql->bindParam(":nombre", $nombre);
-            $sql->bindParam(":apellidos", $apellidos);
-            $sql->bindParam(":correo", $correo);
-            $sql->bindParam(":contrasena", $contrasena);
-            $sql->execute();
-            $id = $con->lastInsertId();
-            $con = null;
-            if ($id != 0) {
-                echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+            $id = $_GET["varId"];
+        
+            if($_POST["nombre"]=="" || $_POST["apellidos"]=="" || $_POST["correo"]==""){
+                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                 echo "    <div>";
-                echo "        Perfecto. Estamos a la espera de que el administrador confirme su registro<i>!</i>";
+                echo "        Debe rellenar todos los campos para realizar el registro correctamente<i>!</i>";
                 echo "    </div>";
                 echo "</div>";
-            } else {
-                header("location: error.html");
-            }//Fin si
-        } catch (PDOException $e) {
-            header("location: error.html");
-        }
-
-    }//Fin si
-
-?>
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href=editarUsuario.php?varId=".$id."'>Volver</a></div>";
+            }else{
+                if (editarUsuario($id, $_POST["nombre"], $_POST["apellidos"], $_POST["correo"])) {
+                    header("Location: usuarios.php");
+                } else {
+                    echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                    echo "    <div>";
+                    echo "        Algo ha salido mal<i>!</i>";
+                    echo "    </div>";
+                    echo "</div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href=editarUsuario.php?varId=".$id."'>Volver</a></div>";
+                }//Fin Si
+            }//Fin Si
+        ?>
 </section>
 <!--                                              -->
 

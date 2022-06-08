@@ -20,37 +20,29 @@
 </head>
 
 <body>
+<?php
+        // Continuar la sesión
+        session_start();
+
+        //Pregunto si la sesion esta iniciada
+        if(isset($_SESSION['sesion_iniciada']) == true ){
+            //Si lo está, pregunto por el tipo de usuario
+            $tipo = session_id();
+            if($tipo!="admin"){
+                //Pagina indicando error
+                header("location: error.html");
+            }//Fin Si
+        }else{
+            //Pagina indicando error
+            header("location: error.html");
+        }//Fin si
+?>
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
             <div class="container">
                 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
                     <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                         <img src="../img/logo.png" class="bi me-2" width="140">
                     </a>
-    <?php
-        // Continuar la sesión
-        session_start();
-
-        //Pregunto si la sesion esta iniciada
-        if(isset($_SESSION['sesion_iniciada']) == true ){
-
-            //Si lo está, pregunto por el tipo de usuario
-            $tipo = session_id();
-            if($tipo!="admin"){
-                //Pagina indicando error
-
-            }else{
-                //Pagina admin
-            }//Fin Si
-        }else{
-            //Pagina indicando error
-        }//Fin si
-    ?>
-
-    <!-- pie de pagina -->
-
-
-    
-
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

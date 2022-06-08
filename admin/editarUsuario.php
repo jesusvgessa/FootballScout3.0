@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Gestión de usuarios</title>
+    <title>Editar usuario</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -91,112 +91,64 @@
         </div>
     </nav>
 
+    <section>
+        <h2 class="text-center my-5">GESTIÓN DE USUARIOS</h2>
 
-    <?php include "../php/databaseManagement.inc.php";
+        <?php include "../php/databaseManagement.inc.php";
 
-        if (count($_GET) > 0) {
             $id = $_GET["varId"];
-            $publicacion = obtenerUsuario($id);
-        } else {
-            $id = $_POST["id"];
-            $publicacion = obtenerUsuario($id);
-        }
-        
-        //Comprobacion
-        if (count($_POST) > 0) {
-            
-            //Tipo de admin
-            $tipo="";
-            $admin=array_key_exists("admin",$_POST) ? $_POST["admin"] : "";
-            $Entrenador=array_key_exists("Entrenador",$_POST) ? $_POST["Entrenador"] : "";
-            $jugador=array_key_exists("jugador",$_POST) ? $_POST["jugador"] : "";
-            if($admin!="" || $jugador=="" && $Entrenador=="" && $admin==""){
-                $tipo .= "admin";
-            }
-            if($Entrenador!="" && $admin!=""){
-                $tipo .= ",".$_POST["Entrenador"];
-            }else if($Entrenador!="" && $admin==""){
-                $tipo .= $_POST["Entrenador"];
-            }
-            if($jugador!="" && ($Entrenador!="" || $admin!="")){
-                $tipo .= ",".$_POST["jugador"];
-            }else if($jugador!="" && $Entrenador=="" && $admin==""){
-                $tipo .= $_POST["jugador"];
-            }
+            $usuario = obtenerUsuario($id);
+        ?>
 
-            $error = '';
-
-            //comprobación
-            if($_POST["nombre"]=="" || $_POST["apellidos"]=="" || $_POST["dni"]=="" || $_POST["correo"]=="" || $_POST["telefono"]=="" || $_POST["num_miembros"]==""){
-                
-                echo "Debe rellenar todos los campos";
-
-            }else{
-
-                $cumplido = editarUsuario($id, $_POST["nombre"], $_POST["apellidos"], $_POST["dni"], $tipo, $_POST["correo"], $_POST["telefono"], $_POST["num_miembros"]);
-
-                if ($cumplido==true) {
-
-                    header("Location: index.php");
-
-                } else {
-
-                    $error = "Datos incorrectos o no se ha actualizado nada";
-                    
-                }
-            }
-        }
-    ?>
-    <article>
-        <div class="container">
-            <h4 class="mb-3 text-center">Información</h4>
-            <form class="needs-validation form-register" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data" id="formRegistro" novalidate>
-                <input type="hidden" name="id" value="<?php echo $publicacion["id"]; ?>">
-                <table>
-                    <tr>
-                        <td>
-                            <label for="nombre">Nombre</label>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="nombre" placeholder="NOMBRE" value='<?php echo $publicacion["nombre"]; ?>' required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="apellidos">Apellidos</label>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="apellidos" placeholder="APELLIDOS" value='<?php echo $publicacion["apellidos"]; ?>' required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="correo">Correo</label>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="correo" placeholder="CORREO" value='<?php echo $publicacion["correo"]; ?>' required><br><br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="tipo">Tipo (Debe tener mínimo un roll, sino se le asignará admin)</label>
-                        </td>
-                        <td>
-                            admin <input name="admin" id="admin" value="admin" type="checkbox">
-                            Entrenador <input name="Entrenador" id="Entrenador" value="Entrenador" type="checkbox">
-                            jugador <input name="jugador" id="jugador" value="jugador" type="checkbox"><br><br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input type="submit" value="Editar">
-                        </td>
-                    </tr>
-                </table>
+        <article class="container bg-dark mb-5">
+            <form class="form-register" action="editar.php?varId=<?php$id?>" method="POST" enctype="multipart/form-data">
+                <div class="container p-5">
+                    <table class="table table-striped table-hover bg-light">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="nombre">Nombre</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="nombre" placeholder="NOMBRE" value='<?php echo $usuario["nombre"]; ?>' required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="apellidos">Apellidos</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="apellidos" placeholder="APELLIDOS" value='<?php echo $usuario["apellidos"]; ?>' required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="correo">Correo</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="correo" placeholder="CORREO" value='<?php echo $usuario["correo"]; ?>' required><br><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="correo">Tipo de usuario</label>
+                                </td>
+                                <td>
+                                    <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true"><?php echo $usuario["tipo"]; ?></a></li>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Editar">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </form>
-        </div>
-    </div>
-    </article>
+        </article>    
+    </section>
+    <!--                     -->
 
     <footer class="container-fluid bg-dark text-light p-5">
         <div class="container">

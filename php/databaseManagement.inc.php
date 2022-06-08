@@ -24,7 +24,7 @@ $pass = "";
             $con = null; //Cerramos la conexión
             return $row;
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: error.html");
         }
     }
 
@@ -87,16 +87,15 @@ $pass = "";
 
     }
     
-    function editarUsuario($id, $nombre, $apellidos, $tipo, $correo)
+    function editarUsuario($id, $nombre, $apellidos, $correo)
     {
         $retorno = false;
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("UPDATE usuarios set nombre=:nombre, apellidos=:apellidos, tipo=:tipo, correo=:correo where id=:id;");
+            $sql = $con->prepare("UPDATE usuarios set nombre=:nombre, apellidos=:apellidos, correo=:correo where id=:id;");
             $sql->bindParam(":id", $id);
             $sql->bindParam(":nombre", $nombre);
             $sql->bindParam(":apellidos", $apellidos);
-            $sql->bindParam(":tipo", $tipo);
             $sql->bindParam(":correo", $correo);
             $sql->execute();
             if ($sql->rowCount() > 0) {
