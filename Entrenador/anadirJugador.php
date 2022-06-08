@@ -2,13 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Inicio</title>
+    <title>Plantilla</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- jquery -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
 
     <!-- Imagen de logo en la pestaña de la página -->
     <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
@@ -17,28 +20,12 @@
     <link rel="stylesheet" href="../css/headers.css">
     <link rel="stylesheet" href="../css/footers.css">
     <link rel="stylesheet" href="../css/entrenador.css">
+
+    <!-- js -->
+    <script src="../js/efectos.js"></script>
 </head>
 
 <body>
-    <?php
-        // Continuar la sesión
-        session_start();
-
-        //Pregunto si la sesion esta iniciada
-        if(isset($_SESSION['sesion_iniciada']) == true ){
-        
-            //Si lo está, pregunto por el tipo de usuario
-            $tipo = session_id();
-            if($tipo!="Entrenador"){
-                //Pagina indicando error
-                header("location: cerrarSesion.php");
-            }//Fin Si
-        }else{
-            //Pagina indicando error
-            header("location: error.html");
-        }//Fin si
-    ?>
-
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
@@ -49,6 +36,8 @@
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         <?php include "../php/databaseManagement.inc.php";
+                            // Continuar la sesión
+                            session_start();
                             //En la varibale de la sesion
                             $id_usuario = $_SESSION['id'];
                             echo "<img src='../img/".obtenerUsuario($id_usuario)['foto']."' alt='entrenador' width='60' class='rounded-circle'>";
@@ -116,84 +105,12 @@
     </nav>
 
     <section>
-        <div class="container">
-            <div class="row g-5 m-5">
-                <aside class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-dark">Próximo rival</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Fecha</h6>
-                                <small class="text-muted">12/5/2022</small>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Nombre</h6>
-                                <small class="text-muted">Lorem</small>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Posicón</h6>
-                                <small class="text-muted">x</small>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Diferencia goles</span>
-                            <strong>5</strong>
-                        </li>
-                    </ul>
-                </aside>
+        <h2 class="text-center my-5">JUGADOR NUEVO</h2>
+        
+        <?php include "../php/databaseManagement.inc.php";
 
-                <div class="col-md-7 col-lg-8">
-                    <article class="container bg-light mb-5 rounded">
-                        <h3>Tablón de anuncios</h3>
-                        <div class="row">
-                            <select class="filtro col-3" name="tema" id="tema">
-                                <option value="0">Filtrar</option>
-                                <option value="entrenamiento">Entrenamiento</option>
-                                <option value="partido">Partido</option>
-                                <option value="convocatoria">Convocatoria</option>
-                                <option value="formulario">Formulario</option>
-                                <option value="Anuncio">Anuncio</option>
-                            </select>
-                            <button class="anadirAnuncio col-4">Añadir anuncio</button>
-                        </div>
-                    </article>
-                    <article class="container bg-light mb-5 rounded">
-                        <h3>Entrenamiento</h3>
-                        <small class="text-muted">17/10/1996</small>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eveniet asperiores cumque laborum mollitia. Ea eveniet perferendis, itaque molestias quam reiciendis dolore blanditiis cum atque similique quisquam quidem recusandae
-                            voluptatem?
-                        </p>
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
-                              <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                              <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-                            </svg>
-                        </a>
-                        <p>Atentamente, @usuario.</p>
-                    </article>
-                    <article class="container bg-light mb-5 rounded">
-                        <h3>Convocatoria</h3>
-                        <small class="text-muted">17/10/1996</small>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eveniet asperiores cumque laborum mollitia. Ea eveniet perferendis, itaque molestias quam reiciendis dolore blanditiis cum atque similique quisquam quidem recusandae
-                            voluptatem?
-                        </p>
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
-                              <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                              <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-                            </svg>
-                        </a>
-                        <p>Atentamente, @usuario.</p>
-                    </article>
-                </div>
-            </div>
-        </div>
+        ?>
+
     </section>
 
     <footer class="container-fluid bg-dark text-light p-5">

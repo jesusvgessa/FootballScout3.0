@@ -181,6 +181,20 @@ $pass = "";
         return $miArray;
     }
 
+    function obtenerEntrenador($id_usuario){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * FROM `entrenadores` WHERE id_usuario=:id_usuario;");
+            $sql->bindParam(":id_usuario", $id_usuario); //Para evitar inyecciones SQL
+            $sql->execute();
+            $row = $sql->fetch(PDO::FETCH_ASSOC); //Recibimos la linea correspondiente en ROW
+            $con = null; //Cerramos la conexión
+            return $row;
+        } catch (PDOException $e) {
+            header("location: error.html");
+        }
+    }
+
     function insertarEntrenador($id,$nombre,$apellidos){
         $equipos=obtenerEquipos();
         $id_equipo = $equipos[(sizeof($equipos)-1)]['id'];
@@ -204,6 +218,23 @@ $pass = "";
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
             $sql = $con->prepare("SELECT * from jugadores");
+            $sql->execute();
+            $miArray = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+        return $miArray;
+    }
+
+    function obtenerJugadoresEquipo($id_equipo){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * from jugadores WHERE id_equipo=:id_equipo");
+            $sql->bindParam(":id_equipo", $id_equipo);
             $sql->execute();
             $miArray = [];
             while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
