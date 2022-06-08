@@ -109,6 +109,23 @@
         
         <?php include "../php/databaseManagement.inc.php";
 
+            $nombre=$_POST["nombre"];
+            $apellidos=$_POST["apellidos"];
+            $apodo=$_POST["apodo"];
+            $dorsal= $_POST["dorsal"];
+            //select
+
+            //foto
+            $avatar = $_FILES["avatar"]["name"];
+            //temp es una copia temporal
+            $temp = $_FILES['avatar']['tmp_name'];
+            if (move_uploaded_file($temp, '../img/' . $avatar)) {
+                //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
+                chmod('../img/' . $avatar, 0777);
+            }//Fin si
+
+            
+
         ?>
 
     </section>

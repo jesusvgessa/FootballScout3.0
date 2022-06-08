@@ -78,7 +78,7 @@
     if (move_uploaded_file($temp, '../img/' . $avatar)) {
         //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
         chmod('../img/' . $avatar, 0777);
-    }
+    }//Fin si
 
     //comprobación
     if($usuario=="" || $nombre=="" || $apellidos=="" || $correo=="" || $contrasena=="" || $contrasena2==""){
