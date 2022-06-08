@@ -35,7 +35,7 @@
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <?php include "../php/databaseManagement.inc.php";
+                        <?php include_once "../php/databaseManagement.inc.php";
                             // Continuar la sesión
                             session_start();
                             //En la varibale de la sesion
@@ -107,7 +107,7 @@
     <section>
         <h2 class="text-center my-5">JUGADOR NUEVO</h2>
         <article class="container bg-dark mb-5">
-            <form action="jugadorNuevo.php" method="POST" class="container needs-validation" novalidate>
+            <form action="jugadorNuevo.php" method="POST" class="container needs-validation" enctype="multipart/form-data" novalidate>
                 <div class="row justify-content-center my-3">
                     <input type="text" class="form-control" name="nombre" id="validationCustom01" placeholder="Nombre" required>
                     <div class="valid-feedback text-center">
@@ -146,7 +146,7 @@
                 </div>
                 <div class="row justify-content-center my-3">
                     <select class="col-3 rounded" name="pos" required>
-                        <option selected disabled value="">Seleccione...</option>
+                        <option selected value="">Seleccione...</option>
                         <option value="Portero">Portero</option>
                         <option value="Defensa">Defensa</option>
                         <option value="Mediocentro">Mediocentro</option>

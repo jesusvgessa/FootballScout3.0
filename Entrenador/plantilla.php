@@ -35,7 +35,7 @@
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <?php include "../php/databaseManagement.inc.php";
+                        <?php include_once "../php/databaseManagement.inc.php";
                             // Continuar la sesión
                             session_start();
                             //En la varibale de la sesion
@@ -130,7 +130,8 @@
                         <label for="filtroNombre">Buscar: </label>
                         <input type="text" name="filtroNombre" id="filtroNombre" placeholder="Nombre">
                     </li>
-                    <?php
+                    <?php include_once "../php/databaseManagement.inc.php";
+
                         if(sizeof(obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']))<25){
                             echo "<li class='col-auto'>";
                             echo "    <a href='anadirJugador.php' id='boton'>";
@@ -144,9 +145,10 @@
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-                <?php
+                <?php include_once "../php/databaseManagement.inc.php";
+
                 //Saco una lista de los jugadores mediante el id de qeuipo
-                $listaJugadores = obtenerJugadoresEquipo(obtenerUsuario($id_usuario)['id_equipo']);
+                $listaJugadores = obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
 
                 for ($i=0;$i<sizeof($listaJugadores);$i++){
                     echo "    <div class='col' id='jugador'>";
@@ -163,12 +165,46 @@
                     echo "                <div class='modal fade' id='".$listaJugadores[$i]['apodo']."' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true'>";
                     echo "                    <div class='modal-dialog modal-lg'>";
                     echo "                        <div class='modal-content'>";
-                    echo "                            <div class='modal-header'>";
-                    echo "                                <h5 class='modal-title' id='staticBackdropLabel'>".$listaJugadores[$i]['nombre']." ".$listaJugadores[$i]['apellidos']."</h5>";
+                    echo "                            <div class='modal-header text-center'>";
+                    echo "                                <h5 class='modal-title' id='staticBackdropLabel'>".$listaJugadores[$i]['nombre']." ".$listaJugadores[$i]['apellidos'].". Alias: ".$listaJugadores[$i]['apodo']."</h5>";
                     echo "                            </div>";
                     echo "                            <div class='modal-body text-center'>";
-                                                            //tabla con estadisticas
-                    echo "                                hola";
+                    echo "<article class='container bg-dark mb-5'>";
+                    echo "    <div class='container p-5'>";
+                    echo "        <table class='table table-striped table-hover bg-light'>";
+                    echo "            <tbody>";
+                    echo "                <tr>";
+                    echo "                    <td><b>POSICIÓN</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['pos']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo "                    <td><b>DORSAL</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['dorsal']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo "                    <td><b>PARTIDOS</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['partidos']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo "                    <td><b>GOLES</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['goles']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo "                    <td><b>ASISTENCIAS</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['asistencias']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo "                    <td><b>TARJETAS AMARILLAS</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['tarjetaAmarilla']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo "                    <td><b>TARJETAS ROJAS</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['tarjetaRoja']."</td>";
+                    echo "                </tr>";
+                    echo "            </tbody>";
+                    echo "        </table>";
+                    echo "    </div>";
+                    echo "</article>    ";
                     echo "                            </div>";
                     echo "                            <div class='modal-footer'>";
                     echo "                                <button type='button' class='btn btn-danger' id='elimina'>Borrar</button>";
@@ -184,386 +220,7 @@
 
                 ?>
             </div>
-
-        </div>
-        <!-- <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/Dmitrovic.jpg" alt="Dmitrovic">
-                <div class="card-body">
-                    <p class="nombre">Marko Dmitrovic</p>
-                    <p class="num">1</p>
-                    <p class="pos">Portero</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#dmi">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="dmi" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Marko Dmitrovic</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/marko-dmitrovic/94527" id="sofa-player-embed-94527"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/Navas.jpg" alt="Jesús Navas">
-                <div class="card-body">
-                    <p class="nombre">Jesús Navas</p>
-                    <p class="num">16</p>
-                    <p class="pos">Defensa</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#navas">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="navas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Jesús Navas</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/jesus-navas/11869" id="sofa-player-embed-11869"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/Koundé.jpg" alt="Kounde">
-                <div class="card-body">
-                    <p class="nombre">Jules Koundé</p>
-                    <p class="num">23</p>
-                    <p class="pos">Defensa</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#kounde">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="kounde" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Jules Koundé</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/jules-kounde/827212" id="sofa-player-embed-827212"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/diegocarlos.jpg" alt="Carlitos">
-                <div class="card-body">
-                    <p class="nombre">Diego Carlos</p>
-                    <p class="num">20</p>
-                    <p class="pos">Defensa</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#diego">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="diego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Diego Carlos</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/diego-carlos/604232" id="sofa-player-embed-604232">    </iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/acuña.jpg" alt="el huevo">
-                <div class="card-body">
-                    <p class="nombre">Marcos Acuña</p>
-                    <p class="num">19</p>
-                    <p class="pos">Defensa</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#huevo">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="huevo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Marcos Acuña</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/marcos-acuna/578560" id="sofa-player-embed-578560">    </iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/montiel.jpg" alt="Montiel">
-                <div class="card-body">
-                    <p class="nombre">Gonzalo Montiel</p>
-                    <p class="num">2</p>
-                    <p class="pos">Defensa</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#montiel">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="montiel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Gonzalo Montiel</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/gonzalo-montiel/822933" id="sofa-player-embed-822933">    </iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/Fernando.jpg" alt="Fernando">
-                <div class="card-body">
-                    <p class="nombre">Papá Fernando</p>
-                    <p class="num">25</p>
-                    <p class="pos">Mediocentro</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#fernando">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="fernando" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Papá Fernando</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/fernando/41837" id="sofa-player-embed-41837"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/rakitic.jpg" alt="Rakitic">
-                <div class="card-body">
-                    <p class="nombre">Ivan Rakitic</p>
-                    <p class="num">10</p>
-                    <p class="pos">Mediocentro</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ivan">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="ivan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Ivan Rakitic</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/ivan-rakitic/7635" id="sofa-player-embed-7635">    </iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/jordán.jpg" alt="Jordan">
-                <div class="card-body">
-                    <p class="nombre">Joan Jordán</p>
-                    <p class="num">8</p>
-                    <p class="pos">Mediocentro</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#jordan">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="jordan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Joan Jordán</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/joan-jordan/591750" id="sofa-player-embed-591750">    </iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/Papu.jpg" alt="Papu">
-                <div class="card-body">
-                    <p class="nombre">Papu Gómez</p>
-                    <p class="num">24</p>
-                    <p class="pos">Mediocentro</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#papu">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="papu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Papu Gómez</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/alejandro-gomez/33381" id="sofa-player-embed-33381"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/Ocampos.jpg" alt="Ocampos">
-                <div class="card-body">
-                    <p class="nombre">Lucas Ocampos</p>
-                    <p class="num">5</p>
-                    <p class="pos">Delantero</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#luca">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="luca" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Lucas Ocampos</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/lucas-ocampos/155702" id="sofa-player-embed-155702">    </iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/nesyri.jpg" alt="nesyri">
-                <div class="card-body">
-                    <p class="nombre">Youssef En-Nesyri</p>
-                    <p class="num">15</p>
-                    <p class="pos">Delantero</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#nesyri">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="nesyri" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Youssef En-Nesyri</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/youssef-en-nesyri/846470" id="sofa-player-embed-846470"></iframe>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger">Borrar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col" id="jugador">
-            <div class="card shadow-sm">
-                <img src="../img/mir.jpg" alt="mir">
-                <div class="card-body">
-                    <p class="nombre">Rafa Mir</p>
-                    <p class="num">12</p>
-                    <p class="pos">Delantero</p>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#mir">
-                        Ver perfil
-                    </button>
-                    <div class="modal fade" id="mir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Rafa Mir</h5>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <iframe width="100%" height="430" frameborder="0" scrolling="no" src="https://www.sofascore.com/embed/player/rafa-mir/825754" id="sofa-player-embed-825754">    </iframe>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger">Borrar</button>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            
         </article>
     </section>
 

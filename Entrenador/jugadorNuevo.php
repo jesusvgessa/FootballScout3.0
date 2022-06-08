@@ -35,7 +35,7 @@
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <?php include "../php/databaseManagement.inc.php";
+                        <?php include_once "../php/databaseManagement.inc.php";
                             // Continuar la sesión
                             session_start();
                             //En la varibale de la sesion
@@ -107,7 +107,7 @@
     <section>
         <h2 class="text-center my-5">JUGADOR NUEVO</h2>
         
-        <?php include "../php/databaseManagement.inc.php";
+        <?php include_once "../php/databaseManagement.inc.php";
 
             $nombre=$_POST["nombre"];
             $apellidos=$_POST["apellidos"];
@@ -115,10 +115,10 @@
             $dorsal= $_POST["dorsal"];
 
             //select
-            if($_POST["pos"]==""){
+            if($_REQUEST["pos"]==""){
                 $pos="Mediocentro";
             }else{
-                $pos=$_POST["pos"];
+                $pos=$_REQUEST["pos"];
             }//Fin Si
 
             //foto
@@ -133,22 +133,31 @@
             //id equipo
             $id_equipo = obtenerEntrenador($id_usuario)['id_equipo'];
 
-            if(insertarJugador($nombre,$apellidos,$apodo,$dorsal,$pos,$avatar,$id_equipo)){
+            //Comprobar campos
+            if($nombre==""||$apellidos==""||$apodo==""||$dorsal==""||$pos==""||$avatar==""||$id_equipo==""){
                 echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                 echo "    <div>";
                 echo "        Debe rellenar todos los campos para realizar el registro correctamente<i>!</i>";
                 echo "    </div>";
-                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='../login/registro.html'>Volver</a></div>";
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='plantilla.php'>Volver</a></div>";
                 echo "</div>";
             }else{
-                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
-                echo "    <div>";
-                echo "        Debe rellenar todos los campos para realizar el registro correctamente<i>!</i>";
-                echo "    </div>";
-                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='../login/registro.html'>Volver</a></div>";
-                echo "</div>";
-            }//Fin Si
-
+                if(insertarJugador($nombre,$apellidos,$apodo,$dorsal,$pos,$avatar,$id_equipo)){
+                    echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                    echo "    <div>";
+                    echo "        Jugador añadido<i>!</i>";
+                    echo "    </div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='plantilla.php'>Volver</a></div>";
+                    echo "</div>";
+                }else{
+                    echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                    echo "    <div>";
+                    echo "        No se ha podido añadir el jugador<i>!</i>";
+                    echo "    </div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='plantilla.php'>Volver</a></div>";
+                    echo "</div>";
+                }//Fin Si
+            }//Fin si
         ?>
 
     </section>

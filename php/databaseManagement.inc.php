@@ -24,7 +24,7 @@ $pass = "";
             $con = null; //Cerramos la conexión
             return $row;
         } catch (PDOException $e) {
-            header("location: error.html");
+            header("location: /php/error.html");
         }
     }
 
@@ -43,7 +43,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $miArray;
     }
@@ -59,7 +59,7 @@ $pass = "";
             }
             $con = null;
         } catch (PDOException $e) {
-            echo $e;
+            header("location: /php/error.html");
         }
         return $miArray2;
     }
@@ -79,7 +79,7 @@ $pass = "";
                 $retorno = true;
             }
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         $con = null; //Cerramos la conexión
         return $retorno;
@@ -97,7 +97,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         }catch(PDOException $e){
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $retorno;
     }
@@ -114,7 +114,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $retorno;
     }
@@ -130,7 +130,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $miArray;
     }
@@ -145,7 +145,7 @@ $pass = "";
             $con = null; //Cerramos la conexión
             return $row;
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
     }
 
@@ -160,7 +160,7 @@ $pass = "";
             $id = $con->lastInsertId();
             $con = null;
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $id != 0;
     }
@@ -176,7 +176,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $miArray;
     }
@@ -191,7 +191,7 @@ $pass = "";
             $con = null; //Cerramos la conexión
             return $row;
         } catch (PDOException $e) {
-            header("location: error.html");
+            header("location: /php/error.html");
         }
     }
 
@@ -209,7 +209,7 @@ $pass = "";
             $id = $con->lastInsertId();
             $con = null;
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $id != 0;
     }
@@ -225,7 +225,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $miArray;
     }
@@ -242,7 +242,7 @@ $pass = "";
             }
             $con = null; //Cerramos la conexión
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            header("location: /php/error.html");
         }
         return $miArray;
     }
@@ -250,20 +250,20 @@ $pass = "";
     function insertarJugador($nombre,$apellidos,$apodo,$dorsal,$pos,$avatar,$id_equipo){
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into jugadores values(:nombre, :pos, :dorsal, null, 0, 0, 0, 0, 0, 0, :apodo, :apellidos, :id_equipo, :foto)");
+            $sql = $con->prepare("INSERT into jugadores values(null, :id_equipo, :nombre, :apellidos, :apodo, :dorsal, :pos, :foto, 0, 0, 0, 0, 0, 0)");
             $sql->bindParam(":nombre", $nombre);
             $sql->bindParam(":apellidos", $apellidos);
             $sql->bindParam(":apodo", $apodo);
             $sql->bindParam(":dorsal", $dorsal);
             $sql->bindParam(":pos", $pos);
-            $sql->bindParam(":avatar", $avatar);
+            $sql->bindParam(":foto", $avatar);
             $sql->bindParam(":id_equipo", $id_equipo);
             $sql->execute();
             $id = $con->lastInsertId();
             $con = null;
+            return $id != 0;
         } catch (PDOException $e) {
-            header("location: ../php/error.php");
+            echo $e;
         }
-        return $id != 0;
     }
 ?>
