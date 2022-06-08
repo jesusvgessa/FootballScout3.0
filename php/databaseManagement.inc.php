@@ -65,7 +65,6 @@ $pass = "";
     }
 
     function insertarUsuario($usuario,$contrasena,$nombre,$apellidos,$tipo,$correo){
-        
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
             $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :contrasena , :nombre , :apellidos , :tipo , :correo ,'1')");
@@ -84,7 +83,6 @@ $pass = "";
         } catch (PDOException $e) {
             header("location: ../php/error.php");
         }
-
     }
     
     function editarUsuario($id, $nombre, $apellidos, $correo)
@@ -125,8 +123,7 @@ $pass = "";
         return $retorno;
     }
 
-    function confirmarUsuario($id)
-    {
+    function confirmarUsuario($id){
         $retorno = false;
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
@@ -143,4 +140,58 @@ $pass = "";
         return $retorno;
     }
 
+    function obtenerEquipos(){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * from equipos");
+            $sql->execute();
+            $miArray = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+        return $miArray;
+    }
+
+    function insertarEquipo(){
+        $equipos=obtenerEquipos();
+        $nombreEquipo = 'equipo'.settype(sizeof($equipos),"string");
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("INSERT into equipos values(null, :nombreEquipo, 'senior', null)");
+            $sql->bindParam(":nombreEquipo", $nombreEquipo);
+            $sql->execute();
+            $id = $con->lastInsertId();
+            $con = null;
+            if ($id == 0) {
+                header("location: ../php/error.php");
+            }
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+    }
+
+    function insertarEntrenador($id,$usuario,$nombre,$apellidos){
+        $equipos=obtenerEquipos();
+        $id_equipo = $equipos[(sizeof($equipos)-1)]['id'];
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("INSERT into entrenadores values(null, :usuario , :nombre , :apellidos , :id_equipo)");
+            $sql->bindParam(":usuario", $usuario);
+            $sql->bindParam(":nombre", $nombre);
+            $sql->bindParam(":apellidos", $apellidos);
+            $sql->bindParam(":id_equipo", $id_equipo);
+            $sql->execute();
+            $id = $con->lastInsertId();
+            $con = null;
+            if ($id == 0) {
+                header("location: ../php/error.php");
+            }
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+    }
 ?>

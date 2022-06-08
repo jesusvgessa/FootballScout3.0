@@ -26,7 +26,7 @@
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
-                <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
 

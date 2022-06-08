@@ -26,7 +26,7 @@
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
-                <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
 
@@ -61,7 +61,7 @@
         <div class="container">
             <ul class="row">
                 <li class="col-2">
-                    <a href="index.html">
+                    <a href="index.php">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
                         <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
                       </svg> Inicio</a>
@@ -92,21 +92,30 @@
     </nav>
     
     <article>  
+        
+    
         <!-- Preguntar antes de eliminar -->
         <?php include "../php/databaseManagement.inc.php";
-            $id= $_GET["varId"];
 
-            $cumplido=eliminarUsuario($id);
-            $error='Se ha borrado el usuario con el id: ' . $id;
-            if(!$cumplido){
-                $error="Error al borrar el usuario seleccionado";
-            }
+            $id= $_GET["varId"];
+            $usuario = obtenerUsuario($id)['nombre'];
+
+            if($cumplido=eliminarUsuario($id)){
+                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                echo "    <div>";
+                echo "        El usuario ".$usuario." ha sido eliminado de la base de datos con éxito!";
+                echo "    </div>";
+                echo "</div>";
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='usuarios.php'>Volver</a></div>";
+            }else{
+                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                echo "    <div>";
+                echo "        Algo ha salido mal<i>!</i>";
+                echo "    </div>";
+                echo "</div>";
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='usuarios.php'>Volver</a></div>";
+            }//Fin Si
         ?>
-        <div class="container text-center">
-            <h2><?php echo $error;?></h2>
-            <a href="index.php">[Seguir gestionando]</a>
-            <a href="../index.php">[Pagina principal]</a>
-        </div>
     </article>
     
     <footer class="container-fluid bg-dark text-light p-5">

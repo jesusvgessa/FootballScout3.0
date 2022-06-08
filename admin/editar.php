@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Inicio</title>
+    <title>Editar</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,20 +10,23 @@
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 
+    <!-- jquery -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+
     <!-- Imagen de logo en la pestaña de la página -->
     <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
 
     <!-- css -->
     <link rel="stylesheet" href="../css/headers.css">
     <link rel="stylesheet" href="../css/footers.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/entrenador.css">
 </head>
 
 <body>
 <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
-                <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
 
@@ -91,8 +94,6 @@
 <!--                            -->
 <section>
 <?php include "../php/databaseManagement.inc.php";
-
-            $id = $_GET["varId"];
         
             if($_POST["nombre"]=="" || $_POST["apellidos"]=="" || $_POST["correo"]==""){
                 echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
@@ -100,17 +101,22 @@
                 echo "        Debe rellenar todos los campos para realizar el registro correctamente<i>!</i>";
                 echo "    </div>";
                 echo "</div>";
-                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href=editarUsuario.php?varId=".$id."'>Volver</a></div>";
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='editarUsuario.php?varId=".$id."'>Volver</a></div>";
             }else{
-                if (editarUsuario($id, $_POST["nombre"], $_POST["apellidos"], $_POST["correo"])) {
-                    header("Location: usuarios.php");
+                if (editarUsuario($_POST["varId"], $_POST["nombre"], $_POST["apellidos"], $_POST["correo"])) {
+                    echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                    echo "    <div>";
+                    echo "        Cambios realizados<i>!</i>";
+                    echo "    </div>";
+                    echo "</div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='usuarios.php'>Volver</a></div>";
                 } else {
                     echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                     echo "    <div>";
                     echo "        Algo ha salido mal<i>!</i>";
                     echo "    </div>";
                     echo "</div>";
-                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href=editarUsuario.php?varId=".$id."'>Volver</a></div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='editarUsuario.php?varId=".$_POST["varId"]."'>Volver</a></div>";
                 }//Fin Si
             }//Fin Si
         ?>

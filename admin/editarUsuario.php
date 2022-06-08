@@ -26,7 +26,7 @@
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
-                <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
 
@@ -101,16 +101,24 @@
         ?>
 
         <article class="container bg-dark mb-5">
-            <form class="form-register" action="editar.php?varId=<?php$id?>" method="POST" enctype="multipart/form-data">
+            <form class="form-register" action="editar.php" method="POST" enctype="multipart/form-data">
                 <div class="container p-5">
                     <table class="table table-striped table-hover bg-light">
                         <tbody>
                             <tr>
                                 <td>
+                                    <label for="varId">ID</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="varId" value='<?php echo $usuario["id"]; ?>'>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <label for="nombre">Nombre</label>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="nombre" placeholder="NOMBRE" value='<?php echo $usuario["nombre"]; ?>' required>
+                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" value='<?php echo $usuario["nombre"]; ?>' required>
                                 </td>
                             </tr>
                             <tr>
@@ -118,7 +126,7 @@
                                     <label for="apellidos">Apellidos</label>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="apellidos" placeholder="APELLIDOS" value='<?php echo $usuario["apellidos"]; ?>' required>
+                                    <input type="text" class="form-control" name="apellidos" placeholder="Apellidos" value='<?php echo $usuario["apellidos"]; ?>' required>
                                 </td>
                             </tr>
                             <tr>
@@ -126,7 +134,7 @@
                                     <label for="correo">Correo</label>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="correo" placeholder="CORREO" value='<?php echo $usuario["correo"]; ?>' required><br><br>
+                                    <input type="text" class="form-control" name="correo" placeholder="Correo" value='<?php echo $usuario["correo"]; ?>' required><br><br>
                                 </td>
                             </tr>
                             <tr>
