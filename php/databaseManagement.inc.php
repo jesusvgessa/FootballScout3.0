@@ -246,4 +246,24 @@ $pass = "";
         }
         return $miArray;
     }
+
+    function insertarJugador($nombre,$apellidos,$apodo,$dorsal,$pos,$avatar,$id_equipo){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("INSERT into jugadores values(:nombre, :pos, :dorsal, null, 0, 0, 0, 0, 0, 0, :apodo, :apellidos, :id_equipo, :foto)");
+            $sql->bindParam(":nombre", $nombre);
+            $sql->bindParam(":apellidos", $apellidos);
+            $sql->bindParam(":apodo", $apodo);
+            $sql->bindParam(":dorsal", $dorsal);
+            $sql->bindParam(":pos", $pos);
+            $sql->bindParam(":avatar", $avatar);
+            $sql->bindParam(":id_equipo", $id_equipo);
+            $sql->execute();
+            $id = $con->lastInsertId();
+            $con = null;
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+        return $id != 0;
+    }
 ?>

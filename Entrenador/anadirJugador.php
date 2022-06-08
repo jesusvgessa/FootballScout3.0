@@ -106,28 +106,68 @@
 
     <section>
         <h2 class="text-center my-5">JUGADOR NUEVO</h2>
-        
-        <?php include "../php/databaseManagement.inc.php";
-
-            $nombre=$_POST["nombre"];
-            $apellidos=$_POST["apellidos"];
-            $apodo=$_POST["apodo"];
-            $dorsal= $_POST["dorsal"];
-            //select
-
-            //foto
-            $avatar = $_FILES["avatar"]["name"];
-            //temp es una copia temporal
-            $temp = $_FILES['avatar']['tmp_name'];
-            if (move_uploaded_file($temp, '../img/' . $avatar)) {
-                //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
-                chmod('../img/' . $avatar, 0777);
-            }//Fin si
-
-            
-
-        ?>
-
+        <article class="container bg-dark mb-5">
+            <form action="jugadorNuevo.php" method="POST" class="container needs-validation" novalidate>
+                <div class="row justify-content-center my-3">
+                    <input type="text" class="form-control" name="nombre" id="validationCustom01" placeholder="Nombre" required>
+                    <div class="valid-feedback text-center">
+                        ¡Perfecto!
+                    </div>
+                    <div class="invalid-feedback text-center">
+                        Introduzca su nombre.
+                    </div>
+                </div>
+                <div class="row justify-content-center my-3">
+                    <input type="text" class="form-control" name="apellidos" id="validationCustom01" placeholder="Apellidos" required>
+                    <div class="valid-feedback text-center">
+                        ¡Perfecto!
+                    </div>
+                    <div class="invalid-feedback text-center">
+                        Introduzca su apellidos.
+                    </div>
+                </div>
+                <div class="row justify-content-center my-3">
+                    <input type="text" class="form-control" name="apodo" id="validationCustom01" placeholder="Apodo" required>
+                    <div class="valid-feedback text-center">
+                        ¡Perfecto!
+                    </div>
+                    <div class="invalid-feedback text-center">
+                        Introduzca su apodo.
+                    </div>
+                </div>
+                <div class="row justify-content-center my-3">
+                    <input type="text" class="form-control" name="dorsal" id="validationCustom01" placeholder="Dorsal" required>
+                    <div class="valid-feedback text-center">
+                        ¡Perfecto!
+                    </div>
+                    <div class="invalid-feedback text-center">
+                        Introduzca su dorsal.
+                    </div>
+                </div>
+                <div class="row justify-content-center my-3">
+                    <select class="col-3 rounded" name="pos" required>
+                        <option selected disabled value="">Seleccione...</option>
+                        <option value="Portero">Portero</option>
+                        <option value="Defensa">Defensa</option>
+                        <option value="Mediocentro">Mediocentro</option>
+                        <option value="Delantero">Delantero</option>
+                    </select>
+                    <div class="invalid-feedback text-center">
+                        Elige tipo de perfil.
+                    </div>
+                </div>
+                <div class="row justify-content-center mx-auto my-3 text-light">
+                    <input type="file" name="avatar" accept="image/png, image/jpeg">
+                    <div class="invalid-feedback text-center">
+                        Seleccione una foto.
+                    </div>
+                </div>
+                <div class="row justify-content-center my-3">
+                    <a class="btn btn-primary col-2 mx-2" href="plantilla.php">Volver</a>
+                    <button class="btn btn-primary col-2 mx-2" type="submit">Añadir</button>
+                </div>
+            </form>
+        </article>
     </section>
 
     <footer class="container-fluid bg-dark text-light p-5">
