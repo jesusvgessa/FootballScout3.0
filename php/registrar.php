@@ -55,7 +55,7 @@
 
     try {
         $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-        $sql = $con->prepare("SELECT * from usuarios;");
+        $sql = $con->prepare("SELECT * FROM `usuarios`");
         $sql->execute();
         $nombreUsuarios = [];
         while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
@@ -66,10 +66,8 @@
         echo $e;
     }
 
-    echo $nombreUsuarios[0];
-    echo sizeof($nombreUsuarios);
     $i=0;
-    while( $i < sizeof($nombreUsuarios) || $nombreUsuarios[$i]['usuario'] != $usuario ){
+    while( $i < (sizeof($nombreUsuarios)-1) && $nombreUsuarios[$i]['usuario'] != $usuario ){
         $i++;
     }//Fin Mientras
 
@@ -102,7 +100,7 @@
         try{
             //Insertar datos en la tabla usuarios
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :nombre , :apellidos , null, :correo , null, :contrasena)");
+            $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :nombre , :apellidos , '0', :correo , 'Entrenador', :contrasena)");
             $sql->bindParam(":usuario", $usuario);
             $sql->bindParam(":nombre", $nombre);
             $sql->bindParam(":apellidos", $apellidos);
@@ -130,7 +128,7 @@
 </section>
 <!--                                              -->
 
-<footer class="container-fluid bg-dark text-light p-5">
+<footer class="container-fluid bg-dark text-light p-5 position-absolute bottom-0">
         <div class="container">
             <div class="row">
                 <div class="col-3">
