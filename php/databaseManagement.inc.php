@@ -63,27 +63,6 @@ $pass = "";
         }
         return $miArray2;
     }
-
-    function insertarUsuario($usuario,$contrasena,$nombre,$apellidos,$tipo,$correo){
-        try {
-            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :contrasena , :nombre , :apellidos , :tipo , :correo ,'1')");
-            $sql->bindParam(":usuario", $usuario);
-            $sql->bindParam(":contrasena", $contrasena);
-            $sql->bindParam(":nombre", $nombre);
-            $sql->bindParam(":apellidos", $apellidos);
-            $sql->bindParam(":tipo", $tipo);
-            $sql->bindParam(":correo", $correo);
-            $sql->execute();
-            $id = $con->lastInsertId();
-            $con = null;
-            if ($id == 0) {
-                echo "Datos incorrectos";
-            }
-        } catch (PDOException $e) {
-            header("location: ../php/error.php");
-        }
-    }
     
     function editarUsuario($id, $nombre, $apellidos, $correo)
     {
@@ -156,6 +135,20 @@ $pass = "";
         return $miArray;
     }
 
+    function obtenerEquipo($id){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * from equipos WHERE id=:id");
+            $sql->bindParam(":id", $id);
+            $sql->execute();
+            $row = $sql->fetch(PDO::FETCH_ASSOC); //Recibimos la linea correspondiente en ROW
+            $con = null; //Cerramos la conexión
+            return $row;
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+    }
+
     function insertarEquipo(){
         $equipos=obtenerEquipos();
         $nombreEquipo = "equipo".((string) sizeof($equipos));
@@ -172,16 +165,32 @@ $pass = "";
         return $id != 0;
     }
 
-    function insertarEntrenador($id,$usuario,$nombre,$apellidos){
+    function obtenerEntrenadores(){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * from entrenadores");
+            $sql->execute();
+            $miArray = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+        return $miArray;
+    }
+
+    function insertarEntrenador($id,$nombre,$apellidos){
         $equipos=obtenerEquipos();
         $id_equipo = $equipos[(sizeof($equipos)-1)]['id'];
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into entrenadores values(null, :usuario , :nombre , :apellidos , :id_equipo)");
-            $sql->bindParam(":usuario", $usuario);
+            $sql = $con->prepare("INSERT into entrenadores values(null, :nombre , :apellidos , :id_equipo, :id_usuario)");
             $sql->bindParam(":nombre", $nombre);
             $sql->bindParam(":apellidos", $apellidos);
             $sql->bindParam(":id_equipo", $id_equipo);
+            $sql->bindParam(":id_equipo", $id);
             $sql->execute();
             $id = $con->lastInsertId();
             $con = null;
@@ -189,5 +198,21 @@ $pass = "";
             header("location: ../php/error.php");
         }
         return $id != 0;
+    }
+
+    function obtenerJugadores(){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * from jugadores");
+            $sql->execute();
+            $miArray = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: ../php/error.php");
+        }
+        return $miArray;
     }
 ?>

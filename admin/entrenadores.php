@@ -94,34 +94,6 @@
     <section>
         <h2 class="text-center my-5">ENTRENADORES</h2>
         <article class="container bg-dark mb-5">
-            <nav class="mb-3 container justify-content-center border-bottom">
-                <ul class="row">
-                    <li class="col-4">
-                        <label for="filtroNombre">Buscar: </label>
-                        <input type="text" name="filtroNombre" id="filtroNombre" placeholder="Nombre">
-                    </li>
-                    <li class="col-3">
-                        <select name="tema" id="orden">
-                            <option value="0">Ordenar</option>
-                            <option value="selectNombre">Fecha</option>
-                            <option value="selectDorsal">Sesión</option>
-                        </select>
-                    </li>
-                    <li class="col-2">
-                        <a href="#" id="boton">
-                            <button class="anadirJugador">Enviar mensaje</button>
-                        </a>
-                    </li>
-                    <li class="col-1">
-                        <a href="mensajes.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                              </svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
             <div class="container p-5">
                 <table class="table table-striped table-hover bg-light">
                     <thead>
@@ -135,14 +107,23 @@
                     <tbody>
                         <?php include "../php/databaseManagement.inc.php";
 
-                            $listaEntrenadores = obtenerTodos();
+                            //Obtengo lista de entrenadores
+                            $listaEntrenadores = obtenerEntrenadores();
 
                             for ($i=0;$i<sizeof($listaEntrenadores);$i++){
+
+                                $foto = obtenerUsuario($listaEntrenadores[$i]['id_usuario'])['foto'];
+
+                                //Si no tiene foto asociada o se ha eliminado del directorio
+                                if($foto=='' || !file_exists("../img/".$foto)){ 
+                                    $foto="noimage.jpg";
+                                }//Fin Si
+
                                 echo "<tr>";
-                                echo "<td>".$listaEntrenadores[$i]['foto']."</td>";
+                                echo "<td><img width='70' class='rounded-circle' src='../img/".$foto."'></td>";
                                 echo "<td>".$listaEntrenadores[$i]['nombre']."</td>";
                                 echo "<td>".$listaEntrenadores[$i]['apellidos']."</td>";
-                                echo "<td>".$listaEntrenadores[$i]['id_equipo']."</td>";
+                                echo "<td>".obtenerEquipo($listaEntrenadores[$i]['id_equipo'])['club']."</td>";
                                 echo "</tr>";
                             }//Fin Para
                         ?>

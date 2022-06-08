@@ -145,9 +145,12 @@
                                     <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true"><?php echo $usuario["tipo"]; ?></a></li>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="2">
+                            <tr>                                
+                                <td>
                                     <input type="submit" value="Editar">
+                                </td>
+                                <td>
+                                    <a href="usuarios.php">Volver</a>
                                 </td>
                             </tr>
                         </tbody>
