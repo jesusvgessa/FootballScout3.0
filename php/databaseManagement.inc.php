@@ -158,7 +158,7 @@ $pass = "";
 
     function insertarEquipo(){
         $equipos=obtenerEquipos();
-        $nombreEquipo = 'equipo'.settype(sizeof($equipos),"string");
+        $nombreEquipo = "equipo".((string) sizeof($equipos));
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
             $sql = $con->prepare("INSERT into equipos values(null, :nombreEquipo, 'senior', null)");
@@ -166,12 +166,10 @@ $pass = "";
             $sql->execute();
             $id = $con->lastInsertId();
             $con = null;
-            if ($id == 0) {
-                header("location: ../php/error.php");
-            }
         } catch (PDOException $e) {
             header("location: ../php/error.php");
         }
+        return $id != 0;
     }
 
     function insertarEntrenador($id,$usuario,$nombre,$apellidos){
@@ -187,11 +185,9 @@ $pass = "";
             $sql->execute();
             $id = $con->lastInsertId();
             $con = null;
-            if ($id == 0) {
-                header("location: ../php/error.php");
-            }
         } catch (PDOException $e) {
             header("location: ../php/error.php");
         }
+        return $id != 0;
     }
 ?>
