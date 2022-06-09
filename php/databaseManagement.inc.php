@@ -241,6 +241,7 @@ $pass = "";
             return $row;
         } catch (PDOException $e) {
             header("location: /php/error.html");
+        }
     }
 
     function obtenerJugadoresEquipo($id_equipo){

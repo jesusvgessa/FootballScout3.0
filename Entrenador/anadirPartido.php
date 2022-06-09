@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="../css/headers.css">
     <link rel="stylesheet" href="../css/footers.css">
     <link rel="stylesheet" href="../css/entrenador.css">
+
+    <!-- js -->
+    <script src="../js/efectos.js"></script>
 </head>
 
 <body>
@@ -29,11 +32,10 @@
                 <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
-
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    <?php include "../php/databaseManagement.inc.php";
+                        <?php include_once "../php/databaseManagement.inc.php";
                             // Continuar la sesión
                             session_start();
                             //En la varibale de la sesion
@@ -81,7 +83,7 @@
                 <li class="col-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475ZM.879 8C-2.426 1.68 4.41-2 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
-                      </svg><a href="entrenamiento.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
+                      </svg><a href="entrenamiento.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475ZM.879 8C-2.426 1.68 4.41-2 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
                   </svg>  Entrenamiento</a></li>
                 <li class="col-2">
@@ -103,67 +105,85 @@
     </nav>
 
     <section>
-        <h2 class="text-center my-5">PARTIDO</h2>
+        <h2 class="text-center my-5">PARTIDO NUEVO</h2>
         <article class="container bg-dark mb-5">
-            <nav class="mb-3 container justify-content-center border-bottom">
-                <ul class="row">
-                    <li class="col-3">
-                        <select name="tema" id="orden">
-                            <option value="0">Ordenar</option>
-                            <option value="selectNombre">Fecha</option>
-                            <option value="selectDorsal">Sesión</option>
-                        </select>
-                    </li>
-                    <li class="col-2">
-                        <a href="anadirPartido.php" id="boton">
-                            <button class="anadirJugador">Añadir Partido</button>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="container p-5">
-                <table class="table table-striped table-hover bg-light">
-                    <thead>
-                        <tr>
-                            <th scope="col">Jornada</th>
-                            <th scope="col">Campo</th>
-                            <th scope="col">Rival</th>
-                            <th scope="col">Resultado</th>
-                            <th scope="col">Informe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+            <form class="form-register" action="partidoNuevo.php" method="POST" enctype="multipart/form-data">
+                <h3 class="text-light text-center"><?php echo obtenerEquipo(obtenerEntrenador($id_usuario)['id_equipo'])['club'] ?></h3>
+                <div class="container p-5">
+                    <div class="row justify-content-center my-3">
+                        <input type="number" class="form-control" name="jornada" id="validationCustom01" placeholder="Jornada" required>
+                        <div class="valid-feedback text-center">
+                            ¡Perfecto!
+                        </div>
+                        <div class="invalid-feedback text-center">
+                            Introduzca la jornada.
+                        </div>
+                    </div>
+                    <!-- Localidad radio button -->
+                    <div class="row justify-content-center my-3">
+                        <input type="text" class="form-control" name="rival" id="validationCustom01" placeholder="Rival" required>
+                        <div class="valid-feedback text-center">
+                            ¡Perfecto!
+                        </div>
+                        <div class="invalid-feedback text-center">
+                            Introduzca el rival.
+                        </div>
+                    </div>
+                    <div class="row justify-content-center my-3">
+                        <input type="text" class="form-control" name="resultado" id="validationCustom01" placeholder="Resultado" required>
+                        <div class="valid-feedback text-center">
+                            ¡Perfecto!
+                        </div>
+                        <div class="invalid-feedback text-center">
+                            Introduzca el resultado.
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover bg-light">
+                        <thead>
+                            <th>#</th>
+                            <th>JUGADOR</th>
+                            <th>MINUTOS</th>
+                            <th>GOLES</th>
+                            <th>ASISTENCIAS</th>
+                            <th>T. AMARILLA</th>
+                            <th>T. ROJA</th>
+                        </thead>
+                        <tbody>
+                            <?php
 
-                            $listaPartidos=obtenerPartidosEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
+                                //Saco una lista de los jugadores mediante el id de qeuipo
+                                $listaJugadores = obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
 
-                            for ($i=0;$i<sizeof($listaPartidos);$i++){
-                                echo "<tr>";
-                                echo "    <td>".$listaPartidos[$i]['jornada']."</td>";
-                                echo "      <td>";
-                                    if($listaPartidos[$i]['localidad']==1){
-                                        echo "LOCAL";
-                                    }else{
-                                        echo "VISITANTE";
-                                }//Fin si
-                                echo "      </td>";
-                                echo "    <td>".$listaPartidos[$i]['rival']."</td>";
-                                echo "    <td>".$listaPartidos[$i]['resultado']."</td>";
-                                echo "    <td>";
-                                echo "      <a href='informe.php?id=".$listaPartidos[$i]['id_informe']."'>";
-                                echo "        <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-file-earmark' viewBox='0 0 16 16'>";
-                                echo "            <path d='M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z'/>";
-                                echo "        </svg>";
-                                echo "      </a>";
-                                echo "    </td>";
-                                echo "</tr>";
-                            }//Fin Para
-
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </article>
+                                for($i=0;$i<18;$i++){
+                                    echo "<tr>";
+                                        echo "<td>".($i+1)."</td>";
+                                        echo "<td>";
+                                            echo "<select class='rounded' name='id_jugador".$i."' required>";
+                                                echo "<option selected value=''>Seleccione...</option>";
+                                            for($j=0;$j<sizeof($listaJugadores);$j++){
+                                                echo "<option value='".$listaJugadores[$j]['id']."'>".$listaJugadores[$j]['apodo']."</option>";
+                                            }//Fin Para
+                                            echo "</select>";
+                                        echo "</td>";
+                                        
+                                        echo "<td><input type='number' class='form-control' name='minutos'></td>";
+                                        echo "<td><input type='number' class='form-control' name='goles'></td>";
+                                        echo "<td><input type='number' class='form-control' name='asistencias'></td>";
+                                        echo "<td><input type='number' class='form-control' name='tarjetaAmarilla'></td>";
+                                        echo "<td><input type='number' class='form-control' name='tarjetaRoja'></td>";
+                                    echo "</tr>";
+                                }//Fin Para
+                                
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row justify-content-center my-3">
+                    <a class="btn btn-primary col-2 mx-2" href="partido.php">Volver</a>
+                    <button class="btn btn-primary col-2 mx-2" type="submit">Añadir</button>
+                </div>
+            </form>
+        </article> 
     </section>
 
     <footer class="container-fluid bg-dark text-light p-5">
@@ -234,8 +254,7 @@
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/modal.js"></script>
-    <script src="../js/entrenador.js"></script>
+    <script src="../js/partido.js"></script>
 </body>
 
 </html>
