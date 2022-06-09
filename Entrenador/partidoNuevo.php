@@ -113,7 +113,71 @@
             $rival=$_POST["rival"];
             $resultado=$_POST["resultado"];
 
+            $jugadores = [];
+
+            for($i=0;$i<18;$i++){
+                $consultaJugador="jugador"+$i;
+                $consultaMinutos="minutos"+$i;
+                $consultaGoles="goles"+$i;
+                $consultaAsistencias="asistecias"+$i;
+                $consultaTarjetaAmarilla="tarjetaAmarilla"+$i;
+                $consultaTarjetaRoja="tarjetaRoja"+$i;
+
+                if($_REQUEST[$consultaJugador]!=""){
+                    //Concatenar a array
+                    array_push($jugadores,$i.":".array("id_jugador"=>$consultaJugador,"minutos"=>$consultaMinutos,"goles"=>$consultaGoles,"asistencias"=>$consultaAsistencias,
+                    "tarjetaAmarilla"=>$consultaTarjetaAmarilla,"tarjetaRoja"=>$consultaTarjetaRoja));
+                }//Fin si
+
+            }//Fin Para
             
+            //0-0
+            if($resultado==""){
+                $resultado="0-0";
+            }//Fin si
+
+            //localidad
+
+            //comprobacion
+            if($jornada==""||$rival==""){
+                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                echo "    <div>";
+                echo "        Debe rellenar todos los campos para realizar el registro correctamente<i>!</i>";
+                echo "    </div>";
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='partido.php'>Volver</a></div>";
+                echo "</div>";
+            }else if(empty($jugadores)||sizeof($jugadores)<11){
+                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                echo "    <div>";
+                echo "        Debe introducir mínimo 11 jugadores<i>!</i>";
+                echo "    </div>";
+                echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='partido.php'>Volver</a></div>";
+                echo "</div>";
+            }else{
+                //no da ningun fallo en el form
+                //tabla informe debe tener un id_partido
+                //Si tengo informe con id, no se puede repetir el informe
+                $id_partido=insertarPartido(obtenerEntrenador($id_usuario)['id_equipo'],$jornada,$localidad,$resultado,$rival);
+                if($id_partido!=0){
+                    foreach($jugadores as $jugador){
+                        array_push($jugador,$id_partido);
+                        insertarInforme($jugador);
+                    }
+                    echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                    echo "    <div>";
+                    echo "        Partido añadido<i>!</i>";
+                    echo "    </div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='partido.php'>Volver</a></div>";
+                    echo "</div>";
+                }else{
+                    echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+                    echo "    <div>";
+                    echo "        No se ha podido añadir partido<i>!</i>";
+                    echo "    </div>";
+                    echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='partido.php'>Volver</a></div>";
+                    echo "</div>";
+                }//Fin si
+            }//Fin si
         ?>
 
     </section>
@@ -186,8 +250,6 @@
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/modal.js"></script>
-    <script src="../js/entrenador.js"></script>
 </body>
 
 </html>

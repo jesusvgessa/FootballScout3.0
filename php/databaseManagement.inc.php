@@ -307,6 +307,25 @@ $pass = "";
         }
     }
 
+    function insertarPartido($id_equipo,$jornada,$localidad,$resultado,$rival){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("INSERT into partidos values(null, :id_equipo,:jornada,:localidad,:resultado,:rival)");
+            $sql->bindParam(":id_equipo", $id_equipo);
+            $sql->bindParam(":id_informe", $id_informe);
+            $sql->bindParam(":jornada", $jornada);
+            $sql->bindParam(":localidad", $localidad);
+            $sql->bindParam(":resultado", $resultado);
+            $sql->bindParam(":rival", $rival);
+            $sql->execute();
+            $id = $con->lastInsertId();
+            $con = null;
+            return $id;
+        } catch (PDOException $e) {
+            header("location: /php/error.html");
+        }
+    }
+
     function obtenerPartidosEquipo($id_equipo){
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
@@ -322,6 +341,26 @@ $pass = "";
             header("location: /php/error.html");
         }
         return $miArray;
+    }
+
+    function insertarInforme($jugador){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("INSERT into informe values(null, :id_jugador, :id_partido, :minutos, :goles, :asistencias, :tarjetaAmarilla, :tarjetaRoja)");
+            $sql->bindParam(":id_jugador", $jugador['id_jugador']);
+            $sql->bindParam(":id_partido", $jugador['id_partido']);
+            $sql->bindParam(":minutos", $jugador['minutos']);
+            $sql->bindParam(":goles", $jugador['goles']);
+            $sql->bindParam(":asistencias", $jugador['asistencias']);
+            $sql->bindParam(":tarjetaAmarilla", $jugador['tarjetaAmarilla']);
+            $sql->bindParam(":tarjetaRoja", $jugador['tarjetaRoja']);
+            $sql->execute();
+            $id = $con->lastInsertId();
+            $con = null;
+            return $id != 0;
+        } catch (PDOException $e) {
+            header("location: /php/error.html");
+        }
     }
 
     function obtenerInformePartido($id_informe){
