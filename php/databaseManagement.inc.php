@@ -230,6 +230,19 @@ $pass = "";
         return $miArray;
     }
 
+    function obtenerJugador($id){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * FROM `jugadores` WHERE id=:id;");
+            $sql->bindParam(":id", $id); //Para evitar inyecciones SQL
+            $sql->execute();
+            $row = $sql->fetch(PDO::FETCH_ASSOC); //Recibimos la linea correspondiente en ROW
+            $con = null; //Cerramos la conexión
+            return $row;
+        } catch (PDOException $e) {
+            header("location: /php/error.html");
+    }
+
     function obtenerJugadoresEquipo($id_equipo){
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
@@ -265,5 +278,65 @@ $pass = "";
         } catch (PDOException $e) {
             echo $e;
         }
+    }
+
+    function actualizarJugador($id,$minutos,$goles,$asistencias,$tarjetaAmarilla,$tarjetaRoja){
+        //cojo los datos del jugador
+        $jugador = obtenerJugador($id);
+        $partidos = $jugador['partidos'] + 1;
+        $minutosJugador= $jugador['minutos'] + $minutos;
+        $golesJugador= $jugador['goles'] + $goles;
+        $asistenciasJugador= $jugador['asistencias'] + $asistencias;
+        $tarjetaAmarillaJugador= $jugador['tarjetaAmarilla'] + $tarjetaAmarilla;
+        $tarjetaRojaJugador= $jugador['tarjetaRoja'] + $tarjetaRoja;
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("UPDATE jugadores SET partidos=:partidos, minutos=:minutos, goles=:goles , asistencias=:asistencias, tarjetaAmarilla=:tarjetaAmarilla, tarjetaRoja=:tarjetaRoja WHERE id=:id;");
+            $sql->bindParam(":id", $id);
+            $sql->bindParam(":partidos", $partidos);
+            $sql->bindParam(":minutos", $minutosJugador);
+            $sql->bindParam(":goles", $golesJugador);
+            $sql->bindParam(":asistencias", $asistenciasJugador);
+            $sql->bindParam(":tarjetaAmarilla", $tarjetaAmarillaJugador);
+            $sql->bindParam(":tarjetaRoja", $tarjetaRojaJugador);
+            $sql->execute();
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: /php/error.html");
+        }
+    }
+
+    function obtenerPartidosEquipo($id_equipo){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * FROM partidos WHERE id_equipo=:id_equipo");
+            $sql->bindParam(":id_equipo", $id_equipo);
+            $sql->execute();
+            $miArray = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: /php/error.html");
+        }
+        return $miArray;
+    }
+
+    function obtenerInformePartido($id_informe){
+        try {
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("SELECT * FROM informe WHERE id=:id_informe");
+            $sql->bindParam(":id_informe", $id_informe);
+            $sql->execute();
+            $miArray = [];
+            while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
+                $miArray[] = $row; //https://www.it-swarm-es.com/es/php/rellenar-php-array-desde-while-loop/972445501/
+            }
+            $con = null; //Cerramos la conexión
+        } catch (PDOException $e) {
+            header("location: /php/error.html");
+        }
+        return $miArray;
     }
 ?>

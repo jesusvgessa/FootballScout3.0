@@ -2,13 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Inicio</title>
+    <title>Partido</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- jquery -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
 
     <!-- Imagen de logo en la pestaña de la página -->
     <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
@@ -20,35 +23,19 @@
 </head>
 
 <body>
-    <?php
-        // Continuar la sesión
-        session_start();
-
-        //Pregunto si la sesion esta iniciada
-        if(isset($_SESSION['sesion_iniciada']) == true ){
-        
-            //Si lo está, pregunto por el tipo de usuario
-            $tipo = session_id();
-            if($tipo!="Entrenador"){
-                //Pagina indicando error
-                header("location: cerrarSesion.php");
-            }//Fin Si
-        }else{
-            //Pagina indicando error
-            header("location: error.html");
-        }//Fin si
-    ?>
-
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
                 <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../img/logo.png" class="bi me-2" width="140">
                 </a>
+
                 <div class="col-md-3 text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="bg-transparent border-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <?php include "../php/databaseManagement.inc.php";
+                    <?php include "../php/databaseManagement.inc.php";
+                            // Continuar la sesión
+                            session_start();
                             //En la varibale de la sesion
                             $id_usuario = $_SESSION['id'];
                             echo "<img src='../img/".obtenerUsuario($id_usuario)['foto']."' alt='entrenador' width='60' class='rounded-circle'>";
@@ -94,7 +81,7 @@
                 <li class="col-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475ZM.879 8C-2.426 1.68 4.41-2 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
-                      </svg><a href="entrenamiento.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
+                      </svg><a href="entrenamiento.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475ZM.879 8C-2.426 1.68 4.41-2 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
                   </svg>  Entrenamiento</a></li>
                 <li class="col-2">
@@ -116,84 +103,58 @@
     </nav>
 
     <section>
-        <div class="container">
-            <div class="row g-5 m-5">
-                <aside class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-dark">Próximo rival</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Fecha</h6>
-                                <small class="text-muted">12/5/2022</small>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Nombre</h6>
-                                <small class="text-muted">Lorem</small>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Posicón</h6>
-                                <small class="text-muted">x</small>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Diferencia goles</span>
-                            <strong>5</strong>
-                        </li>
-                    </ul>
-                </aside>
+        <h2 class="text-center my-5">PARTIDO</h2>
+        <article class="container bg-dark mb-5">
+            <div class="container p-5">
+                <table class="table table-striped table-hover bg-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">PERFIL</th>
+                            <th scope="col">JUGADOR</th>
+                            <th scope="col">MINUTOS</th>
+                            <th scope="col">GOLES</th>
+                            <th scope="col">ASISTENCIAS</th>
+                            <th scope="col">AMARILLA</th>
+                            <th scope="col">ROJA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $id_informe = $_GET["id"];
+                            $listaInforme=obtenerInformePartido($id_informe);
+                            $listaJugadores=obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
 
-                <div class="col-md-7 col-lg-8">
-                    <article class="container bg-light mb-5 rounded">
-                        <h3>Tablón de anuncios</h3>
-                        <div class="row">
-                            <select class="filtro col-3" name="tema" id="tema">
-                                <option value="0">Filtrar</option>
-                                <option value="entrenamiento">Entrenamiento</option>
-                                <option value="partido">Partido</option>
-                                <option value="convocatoria">Convocatoria</option>
-                                <option value="formulario">Formulario</option>
-                                <option value="Anuncio">Anuncio</option>
-                            </select>
-                            <button class="anadirAnuncio col-4">Añadir anuncio</button>
-                        </div>
-                    </article>
-                    <article class="container bg-light mb-5 rounded">
-                        <h3>Entrenamiento</h3>
-                        <small class="text-muted">17/10/1996</small>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eveniet asperiores cumque laborum mollitia. Ea eveniet perferendis, itaque molestias quam reiciendis dolore blanditiis cum atque similique quisquam quidem recusandae
-                            voluptatem?
-                        </p>
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
-                              <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                              <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-                            </svg>
-                        </a>
-                        <p>Atentamente, @usuario.</p>
-                    </article>
-                    <article class="container bg-light mb-5 rounded">
-                        <h3>Convocatoria</h3>
-                        <small class="text-muted">17/10/1996</small>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eveniet asperiores cumque laborum mollitia. Ea eveniet perferendis, itaque molestias quam reiciendis dolore blanditiis cum atque similique quisquam quidem recusandae
-                            voluptatem?
-                        </p>
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
-                              <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                              <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-                            </svg>
-                        </a>
-                        <p>Atentamente, @usuario.</p>
-                    </article>
-                </div>
+                            foreach ($listaInforme as $informeJugador){
+                                echo "<tr>";
+                                //Compruebo que coincida el id_jugador
+                                $i=0;
+                                while ($i < sizeof($listaJugadores) && $informeJugador['id_jugador']!=$listaJugadores[$i]['id']){
+                                    $i++;
+                                }//Fin Mientras
+                                
+                                //meto sus datos en la tabla
+                                echo "    <td>".$listaJugadores[$i]['foto']."</td>";
+                                echo "    <td>".$listaJugadores[$i]['apodo']."</td>";
+                                echo "    <td>".$informeJugador['minutos']."</td>";
+                                echo "    <td>".$informeJugador['goles']."</td>";
+                                echo "    <td>".$informeJugador['asistencias']."</td>";
+                                echo "    <td>".$informeJugador['tarjetaAmarilla']."</td>";
+                                echo "    <td>".$informeJugador['tarjetaRoja']."</td>";
+                                echo "</tr>";
+
+                                //Sumo sus estadisticas globales, y lo saco del array. 
+                                //Cuando vuelva a recorrer el array, tengo un elemento menos que comprobar.
+                                actualizarJugador($listaJugadores[$i]['id'],$informeJugador['minutos'],$informeJugador['goles'],$informeJugador['asistencias'],$informeJugador['tarjetaAmarilla']$informeJugador['tarjetaRoja']);
+                            
+                                //sacar del array
+                                array_splice($listaJugadores,$i,1);
+                            }
+
+                        ?>
+                    </tbody>
+                </table>
             </div>
-        </div>
+        </article>
     </section>
 
     <footer class="container-fluid bg-dark text-light p-5">
