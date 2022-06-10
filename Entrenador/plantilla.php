@@ -186,6 +186,10 @@
                     echo "                    <td>".$listaJugadores[$i]['partidos']."</td>";
                     echo "                </tr>";
                     echo "                <tr>";
+                    echo "                    <td><b>MINUTOS</b></td>";
+                    echo "                    <td>".$listaJugadores[$i]['minutos']."</td>";
+                    echo "                </tr>";
+                    echo "                <tr>";
                     echo "                    <td><b>GOLES</b></td>";
                     echo "                    <td>".$listaJugadores[$i]['goles']."</td>";
                     echo "                </tr>";

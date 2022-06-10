@@ -127,7 +127,12 @@
             //Para el informe del partido, tengo que construir un json, 
             //creo una clase arbol
             class Jugadores{
+                //var $nombre;
                 var $jugadores;
+
+                //function __construct($nombre){
+                //    $this->nombre = $nombre;
+                //}
 
                 function anadirJugador($nodoHijo, $clave){   //añadir un hijo
                    if (!isset($this->jugadores)){
@@ -159,20 +164,19 @@
             //creo el objeto jugadores, donde voy a ir añadiendo a todos.
             $jugadores = new Jugadores();
 
-
             for($i=0;$i<18;$i++){
-                $consultaJugador="jugador"+$i;
-                $consultaMinutos="minutos"+$i;
-                $consultaGoles="goles"+$i;
-                $consultaAsistencias="asistecias"+$i;
-                $consultaTarjetaAmarilla="tarjetaAmarilla"+$i;
-                $consultaTarjetaRoja="tarjetaRoja"+$i;
+                $consultaJugador="id_jugador".((string) $i);
+                $consultaMinutos="minutos".((string) $i);
+                $consultaGoles="goles".((string) $i);
+                $consultaAsistencias="asistencias".((string) $i);
+                $consultaTarjetaAmarilla="tarjetaAmarilla".((string) $i);
+                $consultaTarjetaRoja="tarjetaRoja".((string) $i);
 
                 if($_REQUEST[$consultaJugador]!=""){
                     //Creo el jugador con todas sus estadisticas
                     $jugador = new Jugador($_POST[$consultaJugador],$_POST[$consultaMinutos],$_POST[$consultaGoles],$_POST[$consultaAsistencias],$_POST[$consultaTarjetaAmarilla],$_POST[$consultaTarjetaRoja]);
                     //Lo añado a la raiz del json
-                    $jugadores->anadirJugador($jugador, $i);
+                    $jugadores->anadirJugador($jugador, ((string) $i));
                 }//Fin si
 
             }//Fin Para
@@ -188,7 +192,7 @@
                 echo "    </div>";
                 echo "<div class='d-flex justify-content-center p-3'><a class='text-center' href='partido.php'>Volver</a></div>";
                 echo "</div>";
-            }else if(empty($jugadores)||sizeof($jugadores)<11){
+            }else if(count($jugadores->jugadores)==0||count($jugadores->jugadores)<11){
                 echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                 echo "    <div>";
                 echo "        Debe introducir mínimo 11 jugadores<i>!</i>";
@@ -197,7 +201,10 @@
                 echo "</div>";
             }else{
                 //no da ningun fallo en el form
-                //Si tengo informe con id, no se puede repetir el informe
+                //actualizo los jugadores
+                foreach($jugadores->jugadores as $jugador){
+                    actualizarJugador($jugador);
+                }
                 if(insertarPartido(obtenerEntrenador($id_usuario)['id_equipo'],$jornada,$localidad,$resultado,$rival,$informe)){
                     echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                     echo "    <div>";

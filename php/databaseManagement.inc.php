@@ -281,19 +281,19 @@ $pass = "";
         }
     }
 
-    function actualizarJugador($id,$minutos,$goles,$asistencias,$tarjetaAmarilla,$tarjetaRoja){
+    function actualizarJugador($jugadorActual){
         //cojo los datos del jugador
-        $jugador = obtenerJugador($id);
-        $partidos = $jugador['partidos'] + 1;
-        $minutosJugador= $jugador['minutos'] + $minutos;
-        $golesJugador= $jugador['goles'] + $goles;
-        $asistenciasJugador= $jugador['asistencias'] + $asistencias;
-        $tarjetaAmarillaJugador= $jugador['tarjetaAmarilla'] + $tarjetaAmarilla;
-        $tarjetaRojaJugador= $jugador['tarjetaRoja'] + $tarjetaRoja;
+        $jugador = obtenerJugador($jugadorActual->id);
+        $partidos = ($jugador['partidos'] + 1);
+        $minutosJugador= ($jugador['minutos'] + ($jugadorActual->minutos));
+        $golesJugador= ($jugador['goles'] + ($jugadorActual->goles));
+        $asistenciasJugador= ($jugador['asistencias'] + ($jugadorActual->asistencias));
+        $tarjetaAmarillaJugador= ($jugador['tarjetaAmarilla'] + ($jugadorActual->tarjetaAmarilla));
+        $tarjetaRojaJugador= ($jugador['tarjetaRoja'] + ($jugadorActual->tarjetaRoja));
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
             $sql = $con->prepare("UPDATE jugadores SET partidos=:partidos, minutos=:minutos, goles=:goles , asistencias=:asistencias, tarjetaAmarilla=:tarjetaAmarilla, tarjetaRoja=:tarjetaRoja WHERE id=:id;");
-            $sql->bindParam(":id", $id);
+            $sql->bindParam(":id", $jugadorActual->id);
             $sql->bindParam(":partidos", $partidos);
             $sql->bindParam(":minutos", $minutosJugador);
             $sql->bindParam(":goles", $golesJugador);
@@ -307,20 +307,20 @@ $pass = "";
         }
     }
 
-    function insertarPartido($id_equipo,$jornada,$localidad,$resultado,$rival){
+    function insertarPartido($id_equipo,$jornada,$localidad,$resultado,$rival,$informe){
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into partidos values(null, :id_equipo,:jornada,:localidad,:resultado,:rival)");
+            $sql = $con->prepare("INSERT into partidos values(null, :id_equipo,:jornada,:localidad,:rival,:resultado,:informe)");
             $sql->bindParam(":id_equipo", $id_equipo);
-            $sql->bindParam(":id_informe", $id_informe);
             $sql->bindParam(":jornada", $jornada);
             $sql->bindParam(":localidad", $localidad);
             $sql->bindParam(":resultado", $resultado);
             $sql->bindParam(":rival", $rival);
+            $sql->bindParam(":informe", $informe);
             $sql->execute();
             $id = $con->lastInsertId();
             $con = null;
-            return $id;
+            return $id != 0;
         } catch (PDOException $e) {
             header("location: /php/error.html");
         }
@@ -343,31 +343,11 @@ $pass = "";
         return $miArray;
     }
 
-    function insertarInforme($jugador){
+    function obtenerPartido($id_partido){
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into informe values(null, :id_jugador, :id_partido, :minutos, :goles, :asistencias, :tarjetaAmarilla, :tarjetaRoja)");
-            $sql->bindParam(":id_jugador", $jugador['id_jugador']);
-            $sql->bindParam(":id_partido", $jugador['id_partido']);
-            $sql->bindParam(":minutos", $jugador['minutos']);
-            $sql->bindParam(":goles", $jugador['goles']);
-            $sql->bindParam(":asistencias", $jugador['asistencias']);
-            $sql->bindParam(":tarjetaAmarilla", $jugador['tarjetaAmarilla']);
-            $sql->bindParam(":tarjetaRoja", $jugador['tarjetaRoja']);
-            $sql->execute();
-            $id = $con->lastInsertId();
-            $con = null;
-            return $id != 0;
-        } catch (PDOException $e) {
-            header("location: /php/error.html");
-        }
-    }
-
-    function obtenerInformePartido($id_informe){
-        try {
-            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("SELECT * FROM informe WHERE id=:id_informe");
-            $sql->bindParam(":id_informe", $id_informe);
+            $sql = $con->prepare("SELECT * FROM partidos WHERE id=:id_partido");
+            $sql->bindParam(":id_partido", $id_partido);
             $sql->execute();
             $miArray = [];
             while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente

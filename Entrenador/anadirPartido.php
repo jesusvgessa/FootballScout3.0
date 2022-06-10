@@ -262,7 +262,7 @@
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/partido.js"></script>
+    <!-- <script src="../js/partido.js"></script> -->
 </body>
 
 </html>

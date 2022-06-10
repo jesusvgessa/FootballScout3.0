@@ -125,6 +125,10 @@
             $avatar = $_FILES["avatar"]["name"];
             //temp es una copia temporal
             $temp = $_FILES['avatar']['tmp_name'];
+            //foto estandar por si no inserta
+            if($avatar==""){
+                $avatar="noimage.jpg";
+            }
             if (move_uploaded_file($temp, '../img/' . $avatar)) {
                 //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
                 chmod('../img/' . $avatar, 0777);
