@@ -110,10 +110,55 @@
         <?php include_once "../php/databaseManagement.inc.php";
 
             $jornada=$_POST["jornada"];
+            //localidad
+            if (isset($_POST['localidad'])){
+                $localidad=0;
+            }else{
+                $localidad=1;
+            }//Fin si
+
             $rival=$_POST["rival"];
             $resultado=$_POST["resultado"];
+            //Si no pone nada, es 0-0
+            if($resultado==""){
+                $resultado="0-0";
+            }//Fin si
 
-            $jugadores = [];
+            //Para el informe del partido, tengo que construir un json, 
+            //creo una clase arbol
+            class Jugadores{
+                var $jugadores;
+
+                function anadirJugador($nodoHijo, $clave){   //añadir un hijo
+                   if (!isset($this->jugadores)){
+                      $this->jugadores = array();
+                   }
+                   $this->jugadores[$clave] = $nodoHijo;
+                }
+            }
+
+            //Defino la clase jugador, que son los objetos que se van a ir añadiendo al objeto jugadores
+            class Jugador{
+                var $id;
+                var $minutos;
+                var $goles;
+                var $asistencias;
+                var $tarjetaAmarilla;
+                var $tarjetaRoja;
+
+                function __construct($id,$minutos,$goles,$asistencias,$tarjetaAmarilla,$tarjetaRoja){
+                    $this->id = $id;
+                    $this->minutos = $minutos;
+                    $this->goles = $goles;
+                    $this->asistencias = $asistencias;
+                    $this->tarjetaAmarilla = $tarjetaAmarilla;
+                    $this->tarjetaRoja = $tarjetaRoja;
+                }
+            }
+
+            //creo el objeto jugadores, donde voy a ir añadiendo a todos.
+            $jugadores = new Jugadores();
+
 
             for($i=0;$i<18;$i++){
                 $consultaJugador="jugador"+$i;
@@ -124,19 +169,16 @@
                 $consultaTarjetaRoja="tarjetaRoja"+$i;
 
                 if($_REQUEST[$consultaJugador]!=""){
-                    //Concatenar a array
-                    array_push($jugadores,$i.":".array("id_jugador"=>$consultaJugador,"minutos"=>$consultaMinutos,"goles"=>$consultaGoles,"asistencias"=>$consultaAsistencias,
-                    "tarjetaAmarilla"=>$consultaTarjetaAmarilla,"tarjetaRoja"=>$consultaTarjetaRoja));
+                    //Creo el jugador con todas sus estadisticas
+                    $jugador = new Jugador($_POST[$consultaJugador],$_POST[$consultaMinutos],$_POST[$consultaGoles],$_POST[$consultaAsistencias],$_POST[$consultaTarjetaAmarilla],$_POST[$consultaTarjetaRoja]);
+                    //Lo añado a la raiz del json
+                    $jugadores->anadirJugador($jugador, $i);
                 }//Fin si
 
             }//Fin Para
             
-            //0-0
-            if($resultado==""){
-                $resultado="0-0";
-            }//Fin si
-
-            //localidad
+            //Convierto el objeto jugadores en json, y lo guardo en una variable
+            $informe = json_encode($jugadores);
 
             //comprobacion
             if($jornada==""||$rival==""){
@@ -155,14 +197,8 @@
                 echo "</div>";
             }else{
                 //no da ningun fallo en el form
-                //tabla informe debe tener un id_partido
                 //Si tengo informe con id, no se puede repetir el informe
-                $id_partido=insertarPartido(obtenerEntrenador($id_usuario)['id_equipo'],$jornada,$localidad,$resultado,$rival);
-                if($id_partido!=0){
-                    foreach($jugadores as $jugador){
-                        array_push($jugador,$id_partido);
-                        insertarInforme($jugador);
-                    }
+                if(insertarPartido(obtenerEntrenador($id_usuario)['id_equipo'],$jornada,$localidad,$resultado,$rival,$informe)){
                     echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                     echo "    <div>";
                     echo "        Partido añadido<i>!</i>";

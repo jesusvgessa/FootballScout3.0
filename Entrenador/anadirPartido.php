@@ -120,6 +120,14 @@
                         </div>
                     </div>
                     <!-- Localidad check button -->
+                    <div class="row my-3">
+                        <div class="form-check">
+                            <label class="form-check-label text-light" for="invalidCheck">
+                                Local
+                            </label>
+                            <input class="form-check-input" type="checkbox" name="localidad" value="1" id="invalidCheck">
+                        </div>
+                    </div>
                     <div class="row justify-content-center my-3">
                         <input type="text" class="form-control" name="rival" id="validationCustom01" placeholder="Rival" required>
                         <div class="valid-feedback text-center">
@@ -150,7 +158,6 @@
                         </thead>
                         <tbody>
                             <?php
-
                                 //Saco una lista de los jugadores mediante el id de qeuipo
                                 $listaJugadores = obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
 
@@ -159,18 +166,19 @@
                                         echo "<td>".($i+1)."</td>";
                                         echo "<td>";
                                             echo "<select class='rounded' name='id_jugador".$i."' required>";
-                                                echo "<option selected value=' '>Seleccione...</option>";
+                                                echo "<option selected value='0'>Seleccione...</option>";
+                                                //Muestro todos los jugadores disponibles del equipo
                                             for($j=0;$j<sizeof($listaJugadores);$j++){
                                                 echo "<option value='".$listaJugadores[$j]['id']."'>".$listaJugadores[$j]['apodo']."</option>";
                                             }//Fin Para
                                             echo "</select>";
                                         echo "</td>";
                                         //Hay que ponerle mediante javascript el id a las estadisticas para asociarlas
-                                        echo "<td><input type='number' class='form-control' name='minutos'></td>";
-                                        echo "<td><input type='number' class='form-control' name='goles'></td>";
-                                        echo "<td><input type='number' class='form-control' name='asistencias'></td>";
-                                        echo "<td><input type='number' class='form-control' name='tarjetaAmarilla'></td>";
-                                        echo "<td><input type='number' class='form-control' name='tarjetaRoja'></td>";
+                                        echo "<td><input type='number' class='form-control' name='minutos".$i."'></td>";
+                                        echo "<td><input type='number' class='form-control' name='goles".$i."'></td>";
+                                        echo "<td><input type='number' class='form-control' name='asistencias".$i."'></td>";
+                                        echo "<td><input type='number' class='form-control' name='tarjetaAmarilla".$i."'></td>";
+                                        echo "<td><input type='number' class='form-control' name='tarjetaRoja".$i."'></td>";
                                     echo "</tr>";
                                 }//Fin Para
                                 
