@@ -103,7 +103,16 @@
     </nav>
 
     <section>
+        <?php
+            $id = $_GET["id_partido"];
+            echo $id;
+            $partido = obtenerPartido($id);
+            echo sizeof($partido);
+            
+        ?>
         <h2 class="text-center my-5">PARTIDO</h2>
+        <h4 class="text-center my-5"><?php  echo $partido['rival'] ?></h4>
+        <h4 class="text-center my-5"><?php  echo $partido['resultado'] ?></h4>
         <article class="container bg-dark mb-5">
             <div class="container p-5">
                 <table class="table table-striped table-hover bg-light">
@@ -120,32 +129,30 @@
                     </thead>
                     <tbody>
                         <?php
-                            $id_informe = $_GET["id"];
-                            $listaInforme=obtenerInformePartido($id_informe);
+
+                            $informe=$partido['informe'];
+                            $listaInforme = decode_json($informe);
                             $listaJugadores=obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
 
-                            foreach ($listaInforme as $informeJugador){
+                            foreach ($listaInforme->jugadores as $informeJugador){
                                 echo "<tr>";
                                 //Compruebo que coincida el id_jugador
                                 $i=0;
-                                while ($i < sizeof($listaJugadores) && $informeJugador['id_jugador']!=$listaJugadores[$i]['id']){
+                                while ($i < sizeof($listaJugadores) && ($informeJugador->id)!=$listaJugadores[$i]['id']){
                                     $i++;
                                 }//Fin Mientras
                                 
                                 //meto sus datos en la tabla
                                 echo "    <td>".$listaJugadores[$i]['foto']."</td>";
                                 echo "    <td>".$listaJugadores[$i]['apodo']."</td>";
-                                echo "    <td>".$informeJugador['minutos']."</td>";
-                                echo "    <td>".$informeJugador['goles']."</td>";
-                                echo "    <td>".$informeJugador['asistencias']."</td>";
-                                echo "    <td>".$informeJugador['tarjetaAmarilla']."</td>";
-                                echo "    <td>".$informeJugador['tarjetaRoja']."</td>";
+                                echo "    <td>".$informeJugador->minutos."</td>";
+                                echo "    <td>".$informeJugador->goles."</td>";
+                                echo "    <td>".$informeJugador->asistencias."</td>";
+                                echo "    <td>".$informeJugador->tarjetaAmarilla."</td>";
+                                echo "    <td>".$informeJugador->tarjetaRoja."</td>";
                                 echo "</tr>";
 
-                                //Sumo sus estadisticas globales, y lo saco del array. 
-                                //Cuando vuelva a recorrer el array, tengo un elemento menos que comprobar.
-                                actualizarJugador($listaJugadores[$i]['id'],$informeJugador['minutos'],$informeJugador['goles'],$informeJugador['asistencias'],$informeJugador['tarjetaAmarilla']$informeJugador['tarjetaRoja']);
-                            
+                                //Cuando vuelva a recorrer el array, tengo un elemento menos que comprobar
                                 //sacar del array
                                 array_splice($listaJugadores,$i,1);
                             }

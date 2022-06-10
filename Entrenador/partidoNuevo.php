@@ -172,7 +172,7 @@
                 $consultaTarjetaAmarilla="tarjetaAmarilla".((string) $i);
                 $consultaTarjetaRoja="tarjetaRoja".((string) $i);
 
-                if($_REQUEST[$consultaJugador]!=""){
+                if($_REQUEST[$consultaJugador]!=0){
                     //Creo el jugador con todas sus estadisticas
                     $jugador = new Jugador($_POST[$consultaJugador],$_POST[$consultaMinutos],$_POST[$consultaGoles],$_POST[$consultaAsistencias],$_POST[$consultaTarjetaAmarilla],$_POST[$consultaTarjetaRoja]);
                     //Lo añado a la raiz del json

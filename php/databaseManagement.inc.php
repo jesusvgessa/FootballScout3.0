@@ -343,11 +343,11 @@ $pass = "";
         return $miArray;
     }
 
-    function obtenerPartido($id_partido){
+    function obtenerPartido($id){
         try {
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("SELECT * FROM partidos WHERE id=:id_partido");
-            $sql->bindParam(":id_partido", $id_partido);
+            $sql = $con->prepare("SELECT * FROM `partidos` WHERE id=:id;");
+            $sql->bindParam(":id", $id);
             $sql->execute();
             $miArray = [];
             while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { //Haciendo uso de PDO iremos creando el array dinámicamente
