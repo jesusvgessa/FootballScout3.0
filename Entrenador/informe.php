@@ -105,16 +105,18 @@
     <section>
         <?php
             $id = $_GET["id_partido"];
-            echo $id;
             $partido = obtenerPartido($id);
-            echo sizeof($partido);
-            
         ?>
         <h2 class="text-center my-5">PARTIDO</h2>
-        <h4 class="text-center my-5"><?php  echo $partido['rival'] ?></h4>
-        <h4 class="text-center my-5"><?php  echo $partido['resultado'] ?></h4>
         <article class="container bg-dark mb-5">
             <div class="container p-5">
+                <div class="row">
+                    <h4 class="text-center my-5 col text-light"><?php  echo $partido['rival'] ?></h4>
+                    <h4 class="text-center my-5 col text-light">'<?php  echo $partido['resultado'] ?>'</h4>
+                    <div class="col my-3 align-middle">
+                        <a class="btn btn-primary mx-3" href="partido.php">Volver</a>
+                    </div>
+                </div>
                 <table class="table table-striped table-hover bg-light">
                     <thead>
                         <tr>
@@ -131,7 +133,7 @@
                         <?php
 
                             $informe=$partido['informe'];
-                            $listaInforme = decode_json($informe);
+                            $listaInforme = json_decode($informe);
                             $listaJugadores=obtenerJugadoresEquipo(obtenerEntrenador($id_usuario)['id_equipo']);
 
                             foreach ($listaInforme->jugadores as $informeJugador){
@@ -143,7 +145,7 @@
                                 }//Fin Mientras
                                 
                                 //meto sus datos en la tabla
-                                echo "    <td>".$listaJugadores[$i]['foto']."</td>";
+                                echo "    <td><img src='../img/".$listaJugadores[$i]['foto']."' alt='".$listaJugadores[$i]['apodo']."' width='60' class='rounded-circle'></td>";
                                 echo "    <td>".$listaJugadores[$i]['apodo']."</td>";
                                 echo "    <td>".$informeJugador->minutos."</td>";
                                 echo "    <td>".$informeJugador->goles."</td>";

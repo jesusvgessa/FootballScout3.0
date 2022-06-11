@@ -225,7 +225,7 @@
 
     </section>
 
-    <footer class="container-fluid bg-dark text-light p-5">
+    <footer class="container-fluid bg-dark text-light p-5 position-absolute bottom-0">
         <div class="container">
             <div class="row">
                 <div class="col-3">
