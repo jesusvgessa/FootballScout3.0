@@ -98,8 +98,8 @@
             $id= $_GET["varId"];
             $usuario = obtenerUsuario($id);
 
-            if(insertarEquipo() && insertarEntrenador($usuario['id'],$usuario['usuario'],$usuario['nombre'],$usuario['apellidos']) && confirmarUsuario($usuario['id'])){
-                echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
+            if(insertarEquipo() && insertarEntrenador($usuario['id'],$usuario['nombre'],$usuario['apellidos']) && confirmarUsuario($usuario['id'])){
+                echo "<div class='alert alert-success d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                 echo "    <div>";
                 echo "        El usuario ".$usuario['usuario']." ha sido aceptado en la base de datos!<br>";
                 echo "        Se le ha asociado el equipo <b>".obtenerEquipos()[sizeof(obtenerEquipos())-1]['club']."</b>";

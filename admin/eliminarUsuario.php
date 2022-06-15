@@ -100,7 +100,7 @@
             $id= $_GET["varId"];
             $usuario = obtenerUsuario($id)['nombre'];
 
-            if($cumplido=eliminarUsuario($id)){
+            if(eliminarUsuario($id) && eliminarEntrenadorEquipo($id)){
                 echo "<div class='alert alert-danger d-flex align-items-center justify-content-center col-4 m-auto' role='alert'>";
                 echo "    <div>";
                 echo "        El usuario ".$usuario." ha sido eliminado de la base de datos con éxito!";

@@ -30,11 +30,11 @@
             $tipo = session_id();
             if($tipo!="admin"){
                 //Pagina indicando error
-                header("location: error.html");
+                header("location: ../php/error.html");
             }//Fin Si
         }else{
             //Pagina indicando error
-            header("location: error.html");
+            header("location: ../php/error.html");
         }//Fin si
 ?>
     <div class="container-fluid" style="background-image: url('../img/banner.jpg');background-repeat: no-repeat;background-size: cover; height: auto;">

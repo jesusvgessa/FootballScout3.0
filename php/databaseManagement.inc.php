@@ -102,6 +102,37 @@ $pass = "";
         return $retorno;
     }
 
+    function eliminarEntrenadorEquipo($id){
+        $retorno = false;
+        $retorno2 = false;
+        $id_equipo=obtenerEntrenador($id)['id_equipo'];
+        try{
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("DELETE from entrenadores where id_usuario=:id");
+            $sql->bindParam(":id", $id);
+            $sql->execute();
+            if ($sql->rowCount() > 0){
+                $retorno = true;
+            }
+            $con = null; //Cerramos la conexión
+        }catch(PDOException $e){
+            header("location: /php/error.html");
+        }
+        try{
+            $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
+            $sql = $con->prepare("DELETE from equipos where id=:id");
+            $sql->bindParam(":id", $id_equipo);
+            $sql->execute();
+            if ($sql->rowCount() > 0){
+                $retorno2 = true;
+            }
+            $con = null; //Cerramos la conexión
+        }catch(PDOException $e){
+            header("location: /php/error.html");
+        }
+        return $retorno && $retorno2;
+    }
+
     function confirmarUsuario($id){
         $retorno = false;
         try {
@@ -204,14 +235,14 @@ $pass = "";
             $sql->bindParam(":nombre", $nombre);
             $sql->bindParam(":apellidos", $apellidos);
             $sql->bindParam(":id_equipo", $id_equipo);
-            $sql->bindParam(":id_equipo", $id);
+            $sql->bindParam(":id_usuario", $id);
             $sql->execute();
             $id = $con->lastInsertId();
             $con = null;
+            return $id != 0;
         } catch (PDOException $e) {
-            header("location: /php/error.html");
+            echo $e;
         }
-        return $id != 0;
     }
 
     function obtenerJugadores(){

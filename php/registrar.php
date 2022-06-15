@@ -75,6 +75,9 @@
     $avatar = $_FILES["avatar"]["name"];
     //temp es una copia temporal
     $temp = $_FILES['avatar']['tmp_name'];
+    if($avatar==""){
+        $avatar="noimage.jpg";
+    }
     if (move_uploaded_file($temp, '../img/' . $avatar)) {
         //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
         chmod('../img/' . $avatar, 0777);
@@ -109,7 +112,7 @@
         try{
             //Insertar datos en la tabla usuarios
             $con = new PDO("mysql:host=" . $GLOBALS['servidor'] . ";dbname=" . $GLOBALS['baseDatos'], $GLOBALS['user'], $GLOBALS['pass']);
-            $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :nombre , :apellidos , '0', :correo , 'Entrenador', :avatar, :contrasena)");
+            $sql = $con->prepare("INSERT into usuarios values(null, :usuario , :nombre , :apellidos , '0', :correo , 'Entrenador', :contrasena, :avatar)");
             $sql->bindParam(":usuario", $usuario);
             $sql->bindParam(":nombre", $nombre);
             $sql->bindParam(":apellidos", $apellidos);
